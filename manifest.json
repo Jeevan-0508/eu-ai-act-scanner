@@ -1,0 +1,14 @@
+{
+  "name": "EU AI Act Compliance Scanner",
+  "short_name": "AI Act Scanner",
+  "description": "Scan any AI system for EU AI Act 2024/1689 compliance. Risk classification, gap analysis, and exportable reports.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0f1117",
+  "theme_color": "#6366f1",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
