@@ -487,12 +487,12 @@ function step2(){
   +'<div class="card-sub">Answer all 14 questions. Each maps to a specific EU AI Act article. Answer No if the criterion does not apply to your system. <strong style="color:var(--accent2)">'+answered+'/14 answered.</strong></div>'
   +QS.map(q=>{
     const ans=S.qualifiers[q.id];
-    return '<div class="question-block'+(ans?' answered':'')+'" id="qb_'+q.id+'">'
+    return '<div class="question-block'+(ans?' answered':'')+'" id="qb_'+q.id+'" data-qid="'+q.id+'">'
     +'<div class="q-art">'+q.art+'</div>'
     +'<div class="q-text">'+q.text+'</div>'
     +'<div class="yn-row">'
-    +'<button class="yn-btn yes'+(ans==='yes'?' active':'')+'" onclick="ansQ(''+q.id+'','yes')">&#10005; Yes &mdash; applies to this system</button>'
-    +'<button class="yn-btn no'+(ans==='no'?' active':'')+'" onclick="ansQ(''+q.id+'','no')">&#10003; No &mdash; does not apply</button>'
+    +'<button class="yn-btn yes'+(ans==='yes'?' active':'')+('" onclick="ansQYes(this)" data-val="yes">&#10005; Yes &mdash; applies to this system</button>')
+    +'<button class="yn-btn no'+(ans==='no'?' active':'')+('" onclick="ansQNo(this)" data-val="no">&#10003; No &mdash; does not apply</button>')
     +'</div></div>';
   }).join('')
   +'<div class="btn-row">'
@@ -501,6 +501,9 @@ function step2(){
   +'</div></div></div>';
 }
 
+function ansQYes(btn){ansQ(btn.closest('.question-block').dataset.qid,'yes');}
+function ansQNo(btn){ansQ(btn.closest('.question-block').dataset.qid,'no');}
+function togItem(el){tog(el.dataset.rid);}
 function ansQ(id,val){
   S.qualifiers[id]=val;
   const b=document.getElementById('qb_'+id);
@@ -534,7 +537,7 @@ function step3(){
   +'<div class="card-sub">Check each requirement currently implemented in your system. This generates your compliance score and identifies gaps.</div>'
   +reqs.map(r=>{
     const chk=S.controls[r.id]||false;
-    return '<div class="checklist-item'+(chk?' checked':'')+'" id="ci_'+r.id+'" onclick="tog(''+r.id+'')">'
+    return '<div class="checklist-item'+(chk?' checked':'')+'" id="ci_'+r.id+'" data-rid="'+r.id+'" onclick="togItem(this)">'
     +'<div class="check-box">'+(chk?'&#10003;':'')+'</div>'
     +'<div style="flex:1"><div class="check-title">'+r.t+'</div><div class="check-desc">'+r.d+'</div><div class="check-art">'+r.a+'</div></div>'
     +'<div class="check-mandatory '+r.m+'">'+r.m.toUpperCase()+'</div>'
