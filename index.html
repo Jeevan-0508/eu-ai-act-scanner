@@ -389,6 +389,10 @@ details.q-why summary:hover{background:rgba(99,102,241,.15)}
       <a href="https://github.com/Jeevan-0508/eu-ai-act-scanner" target="_blank" rel="noopener">GitHub</a> &middot;
       Based on Regulation (EU) 2024/1689 &middot; Not legal advice
     </p>
+    <p style="margin-top:14px;display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap">
+      <span id="verifiedBadge" style="font-size:11px;color:var(--muted);background:var(--surface2);border:1px solid var(--border);padding:5px 12px;border-radius:20px"></span>
+      <button onclick="checkForUpdates()" style="font-size:11px;background:transparent;border:1px solid var(--border);color:var(--accent2);padding:5px 12px;border-radius:20px;cursor:pointer;font-family:inherit">&#128260; Check for regulation updates</button>
+    </p>
   </footer>
 </div>
 
@@ -411,6 +415,36 @@ details.q-why summary:hover{background:rgba(99,102,241,.15)}
 
 <script>
 const S={step:1,profile:{name:'',team:'',purpose:'',domain:'',description:''},qualifiers:{},controls:{},tier:null};
+
+/* ── Regulation currency tracking ── */
+var REG_LAST_REVIEWED='2026-09-02';
+var REG_SOURCE_URL='https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689';
+function getVerifiedDate(){return localStorage.getItem('euai_verified')||REG_LAST_REVIEWED;}
+function fmtDate(iso){var d=new Date(iso+'T00:00:00');return d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});}
+function renderVerifiedBadge(){
+  var el=document.getElementById('verifiedBadge');
+  if(!el)return;
+  el.innerHTML='&#9989; Content last verified against EUR-Lex: <strong>'+fmtDate(getVerifiedDate())+'</strong>';
+}
+function checkForUpdates(){
+  var btn=event&&event.target;
+  var msg='This scanner is a static tool \u2014 it cannot read or rewrite itself automatically.\n\n'+
+    'What this will do:\n'+
+    '1. Open the live EUR-Lex consolidated text of the EU AI Act in a new tab\n'+
+    '2. Let you scan for any changes since '+fmtDate(getVerifiedDate())+'\n'+
+    '3. If nothing has changed, click OK below to mark today as verified\n\n'+
+    'Open the source text now?';
+  if(!confirm(msg))return;
+  window.open(REG_SOURCE_URL,'_blank','noopener');
+  setTimeout(function(){
+    if(confirm('Did the regulation text look unchanged? Click OK to mark '+new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})+' as verified.\n\nClick Cancel if you spotted changes (update the scanner\'s data before marking verified).')){
+      localStorage.setItem('euai_verified',new Date().toISOString().slice(0,10));
+      renderVerifiedBadge();
+      alert('Verified date updated. Thanks for keeping this current.');
+    }
+  },400);
+}
+
 
 function showLanding(){
   document.getElementById('landing').style.display='';
@@ -814,7 +848,7 @@ function step4(){
   html+='<div style="font-size:12px;color:var(--muted)">/100</div></div></div>';
   html+='<div style="flex:1"><div style="font-size:15px;font-weight:700;margin-bottom:4px">'+esc(S.profile.name||'AI System')+'</div>';
   html+='<div style="font-size:12px;color:var(--muted);margin-bottom:12px">'+esc(S.profile.team||'')+' &middot; '+esc(S.profile.domain||'')+'</div>';
-  html+='<div style="font-size:13px;line-height:2.1">Risk Tier: <strong style="color:'+TM.col+'">'+TM.label+'</strong><br>Requirements met: <strong>'+chk.length+' / '+total+'</strong><br>Mandatory gaps: <strong style="color:'+(missing.length>0?'#ef4444':'#22c55e')+'">'+missing.length+'</strong><br>Assessed: <strong>'+new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})+'</strong></div></div></div>';
+  html+='<div style="font-size:13px;line-height:2.1">Risk Tier: <strong style="color:'+TM.col+'">'+TM.label+'</strong><br>Requirements met: <strong>'+chk.length+' / '+total+'</strong><br>Mandatory gaps: <strong style="color:'+(missing.length>0?'#ef4444':'#22c55e')+'">'+missing.length+'</strong><br>Assessed: <strong>'+new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})+'</strong><br>Regulation data verified: <strong>'+fmtDate(getVerifiedDate())+'</strong></div></div></div>';
   html+='<div class="section-header">&#10004; Requirements Status</div>';
   reqs.forEach(r=>{
     const done=S.controls[r.id];
@@ -919,6 +953,7 @@ function exportRpt(){
   a.download='EU_AI_Act_Report_'+(S.profile.name||'Assessment').replace(/\s+/g,'_')+'_'+new Date().toISOString().slice(0,10)+'.html';
   a.click();
 }
+renderVerifiedBadge();
 </script>
 </body>
 </html>
