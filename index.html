@@ -194,6 +194,61 @@ select option{background:var(--surface2)}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:600px){.hero h1{font-size:28px}.stat-bar{flex-wrap:wrap}.stat-item{min-width:50%}.tier-grid{grid-template-columns:1fr 1fr}.steps-row{grid-template-columns:1fr 1fr}.metrics-row{grid-template-columns:1fr}.result-header{flex-direction:column;text-align:center}.header-actions .gh-btn{display:none}}
 ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* ── Explain Why panels ── */
+details.q-why{margin-top:10px}
+details.q-why summary{font-size:12px;font-weight:600;color:var(--accent2);cursor:pointer;list-style:none;display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:6px;background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.2);width:fit-content;transition:all .2s;user-select:none}
+details.q-why summary::before{content:"▸";font-size:11px;transition:transform .2s}
+details.q-why[open] summary::before{transform:rotate(90deg)}
+details.q-why summary:hover{background:rgba(99,102,241,.15)}
+.q-why-body{margin-top:10px;padding:14px;background:rgba(99,102,241,.07);border-left:3px solid var(--accent);border-radius:0 8px 8px 0}
+.q-why-body p{font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:8px}
+.q-why-body p:last-child{margin-bottom:0}
+.q-why-body strong{color:var(--accent2)}
+
+/* ── Compliance Timeline ── */
+.timeline-wrap{padding:0;margin-bottom:0}
+.timeline-row{display:flex;align-items:flex-start;gap:0;position:relative;padding:0 0 0 20px}
+.timeline-row::before{content:"";position:absolute;left:20px;top:28px;bottom:0;width:2px;background:var(--border)}
+.timeline-row:last-child::before{display:none}
+.tl-item{display:flex;align-items:flex-start;gap:16px;padding:0 0 28px 0;position:relative;width:100%}
+.tl-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;margin-top:5px;margin-left:-27px;border:2px solid var(--border);position:relative;z-index:1}
+.tl-dot.done{background:var(--success);border-color:var(--success)}
+.tl-dot.overdue{background:var(--danger);border-color:var(--danger)}
+.tl-dot.upcoming{background:var(--surface);border-color:var(--border)}
+.tl-dot.now{background:var(--warning);border-color:var(--warning);box-shadow:0 0 0 4px rgba(245,158,11,.2)}
+.tl-content{flex:1}
+.tl-date{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.5px;margin-bottom:3px}
+.tl-label{font-size:14px;font-weight:700;margin-bottom:4px}
+.tl-label.done{color:var(--success)}
+.tl-label.overdue{color:var(--danger)}
+.tl-label.upcoming{color:var(--muted)}
+.tl-label.now{color:var(--warning)}
+.tl-desc{font-size:12px;color:var(--muted);line-height:1.6}
+.tl-tag{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;margin-top:6px}
+.tl-tag.done{background:rgba(34,197,94,.15);color:var(--success)}
+.tl-tag.overdue{background:rgba(239,68,68,.15);color:var(--danger)}
+.tl-tag.now{background:rgba(245,158,11,.15);color:var(--warning)}
+.tl-tag.upcoming{background:rgba(148,163,184,.1);color:var(--muted)}
+
+/* ── ISO 42001 Tab system ── */
+.tab-row{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:24px}
+.tab-btn{padding:10px 20px;font-size:13px;font-weight:600;color:var(--muted);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:7px;font-family:inherit}
+.tab-btn.active{color:var(--accent2);border-bottom-color:var(--accent)}
+.tab-btn:hover:not(.active){color:var(--text)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.iso-row{display:flex;align-items:flex-start;gap:12px;padding:12px;background:var(--surface2);border-radius:8px;margin-bottom:7px;border-left:3px solid var(--border)}
+.iso-row.mapped{border-left-color:var(--accent)}
+.iso-clause{font-size:10px;font-weight:700;color:var(--accent2);background:rgba(99,102,241,.12);padding:2px 7px;border-radius:5px;white-space:nowrap;flex-shrink:0;margin-top:1px}
+.iso-title{font-size:13px;font-weight:600;margin-bottom:3px}
+.iso-map{font-size:11px;color:var(--muted);margin-top:3px}
+.iso-map span{color:var(--accent2)}
+.iso-score-row{display:flex;gap:14px;margin-bottom:20px}
+.iso-score-card{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center}
+.iso-score-val{font-size:24px;font-weight:800;margin-bottom:4px}
+.iso-score-lbl{font-size:11px;color:var(--muted)}
+
 </style>
 </head>
 <body>
@@ -376,20 +431,62 @@ if('serviceWorker' in navigator){
 }
 
 const QS=[
-  {id:'qu_social',art:'Article 5(1)(c)',text:'Does the system assign social scores to natural persons based on social behaviour or personal characteristics, used to determine treatment in unrelated social contexts?',tier:'unacceptable'},
-  {id:'qu_subliminal',art:'Article 5(1)(a)',text:'Does it use subliminal techniques or exploit vulnerabilities of specific groups (age, disability) to materially distort behaviour in ways that cause or are likely to cause harm?',tier:'unacceptable'},
-  {id:'qu_biometric',art:'Article 5(1)(h)',text:'Does it perform real-time remote biometric identification of natural persons in publicly accessible spaces for law enforcement purposes?',tier:'unacceptable'},
-  {id:'qh_employment',art:'Annex III(4)',text:'Is it used for employment or workers management: recruitment screening, CV filtering, promotion decisions, task allocation, or performance/behaviour monitoring of workers?',tier:'high'},
-  {id:'qh_infra',art:'Annex III(2)',text:'Does it manage or operate critical infrastructure: transport networks, energy, water supply, or digital infrastructure?',tier:'high'},
-  {id:'qh_education',art:'Annex III(3)',text:'Is it used to determine access to educational institutions, assess students, or evaluate learning outcomes with meaningful consequences?',tier:'high'},
-  {id:'qh_essential',art:'Annex III(5)',text:'Does it evaluate eligibility for or determine access to essential services: banking, insurance, credit scoring, social benefits, or emergency services?',tier:'high'},
-  {id:'qh_law',art:'Annex III(6)',text:'Is it used in law enforcement: risk assessment of individuals, crime prediction, evidence reliability evaluation, or profiling of persons?',tier:'high'},
-  {id:'qh_migration',art:'Annex III(7)',text:'Is it used in migration, asylum, or border control: risk assessment of persons, document verification, or examining applications?',tier:'high'},
-  {id:'qh_justice',art:'Annex III(8)',text:'Is it used in administration of justice: assisting courts or tribunals in researching facts and law, or in alternative dispute resolution?',tier:'high'},
-  {id:'ql_chatbot',art:'Article 50(1)',text:'Does it interact with natural persons via text, voice, or natural language (chatbot, virtual assistant, automated customer support agent)?',tier:'limited'},
-  {id:'ql_synthetic',art:'Article 50(2)',text:'Does it generate or manipulate synthetic images, audio, video, or text (deepfakes, AI-generated content intended to appear as real)?',tier:'limited'},
-  {id:'ql_emotion',art:'Article 50(3)',text:'Does it infer emotions or intentions of natural persons based on biometric data in the context of work, education, or law enforcement?',tier:'limited'},
-  {id:'qg_gpai',art:'Articles 51-55',text:'Is this a General-Purpose AI model trained on large amounts of data, capable of performing a wide range of tasks (foundation model, LLM, multimodal model)?',tier:'gpai'}
+  {id:'qu_social',art:'Article 5(1)(c)',tier:'unacceptable',
+   text:'Does the system assign social scores to natural persons based on social behaviour or personal characteristics, used to determine treatment in unrelated social contexts?',
+   why:'Social scoring creates opaque, self-reinforcing discrimination. A person flagged in one context faces restrictions in entirely different areas of life — without transparency or recourse. The EU considers this incompatible with human dignity and the rule of law.',
+   example:'A carrier risk engine that permanently lowers an account tier based on complaint history, automatically blocking that carrier from new lanes or rate negotiation — with no human review or appeal pathway.'},
+  {id:'qu_subliminal',art:'Article 5(1)(a)',tier:'unacceptable',
+   text:'Does it use subliminal techniques or exploit vulnerabilities of specific groups (age, disability) to materially distort behaviour in ways that cause or are likely to cause harm?',
+   why:'AI that bypasses conscious decision-making — through hidden nudges, manufactured urgency, or targeting cognitive vulnerabilities — removes informed consent. The harm does not need to be intentional; the effect alone triggers this prohibition.',
+   example:'A driver onboarding flow using ML-optimised dark patterns (fake countdown timers, misleading progress bars) to pressure acceptance of unfavourable terms before the driver can read them.'},
+  {id:'qu_biometric',art:'Article 5(1)(h)',tier:'unacceptable',
+   text:'Does it perform real-time remote biometric identification of natural persons in publicly accessible spaces for law enforcement purposes?',
+   why:'Real-time facial recognition in public spaces creates mass surveillance infrastructure. Even with law enforcement intent, it creates chilling effects on movement and assembly. Banned except in narrowly defined terrorism/kidnapping emergencies.',
+   example:'CCTV at a fulfilment centre entrance that cross-references driver faces against a law enforcement watchlist in real time, not just for site access but for crime prevention purposes.'},
+  {id:'qh_employment',art:'Annex III(4)',tier:'high',
+   text:'Is it used for employment or workers management: recruitment screening, CV filtering, promotion decisions, task allocation, or performance/behaviour monitoring of workers?',
+   why:'AI that influences livelihoods at scale carries asymmetric power. Workers rarely know when AI is evaluating them, cannot contest outputs, and face compounding effects if biased scores follow them across roles. High-risk classification reflects the severity and invisibility of the impact.',
+   example:'A driver performance scoring system that feeds into termination or contract renewal decisions, or an algorithm that allocates preferred shift patterns based on behavioural data without human review.'},
+  {id:'qh_infra',art:'Annex III(2)',tier:'high',
+   text:'Does it manage or operate critical infrastructure: transport networks, energy, water supply, or digital infrastructure?',
+   why:'Failures in AI managing infrastructure cascade rapidly — a routing error in a national freight network or a load-balancing fault in an energy grid can affect millions. Oversight requirements scale with the blast radius of failure.',
+   example:'An autonomous AI routing engine that reroutes freight across a national or EU-wide logistics network without human approval checkpoints, affecting supply chains and road safety simultaneously.'},
+  {id:'qh_education',art:'Annex III(3)',tier:'high',
+   text:'Is it used to determine access to educational institutions, assess students, or evaluate learning outcomes with meaningful consequences?',
+   why:'Educational access shapes lifetime earnings and opportunity. AI gatekeeping these decisions — without human review — can entrench disadvantage invisibly and at scale.',
+   example:'An automated training eligibility system that uses past performance scores to determine which drivers or carriers qualify for safety certification programmes, affecting their operating licences.'},
+  {id:'qh_essential',art:'Annex III(5)',tier:'high',
+   text:'Does it evaluate eligibility for or determine access to essential services: banking, insurance, credit scoring, social benefits, or emergency services?',
+   why:'Denial of financial or essential services can be existential for individuals and businesses. The EU requires human accountability in these decisions because the consequences of error are severe and often irreversible.',
+   example:'An automated carrier payment processing system that blocks disbursements based on a fraud risk score without a human review step before suspension.'},
+  {id:'qh_law',art:'Annex III(6)',tier:'high',
+   text:'Is it used in law enforcement: risk assessment of individuals, crime prediction, evidence reliability evaluation, or profiling of persons?',
+   why:'Predictive policing AI creates feedback loops — biased predictions lead to biased enforcement, which confirms the prediction. The EU mandates strict oversight to protect due process and the presumption of innocence.',
+   example:'A carrier fraud detection system that automatically flags accounts for law enforcement referral based on pattern matching, without analyst review before the referral is made.'},
+  {id:'qh_migration',art:'Annex III(7)',tier:'high',
+   text:'Is it used in migration, asylum, or border control: risk assessment of persons, document verification, or examining applications?',
+   why:'Errors in migration AI can result in wrongful detention or deportation. The stakes are irreversible and disproportionate harm falls on already-vulnerable populations.',
+   example:'A freight customs clearance AI that uses behavioural profiling to automatically flag shipments or carriers for border inspection, affecting movement of goods and people.'},
+  {id:'qh_justice',art:'Annex III(8)',tier:'high',
+   text:'Is it used in administration of justice: assisting courts or tribunals in researching facts and law, or in alternative dispute resolution?',
+   why:'Courts must be impartial and explainable. AI that assists legal reasoning can entrench bias at scale, and opaque outputs undermine the right to an effective remedy.',
+   example:'A contract dispute resolution tool that uses ML to suggest financial outcomes in carrier payment disputes, where the recommendation influences the arbitrator.'},
+  {id:'ql_chatbot',art:'Article 50(1)',tier:'limited',
+   text:'Does it interact with natural persons via text, voice, or natural language (chatbot, virtual assistant, automated customer support agent)?',
+   why:'People make fundamentally different decisions when they believe they are speaking to a human. Concealing the AI nature is a form of deception that the EU considers a basic transparency violation regardless of intent.',
+   example:'An automated Connect or Relay message bot that responds to carrier queries about account status, delivery issues, or payment disputes without identifying itself as an AI system.'},
+  {id:'ql_synthetic',art:'Article 50(2)',tier:'limited',
+   text:'Does it generate or manipulate synthetic images, audio, video, or text (deepfakes, AI-generated content intended to appear as real)?',
+   why:'AI-generated media that appears authentic undermines trust in evidence and enables fraud at scale. Labelling requirements let recipients make informed judgements about authenticity.',
+   example:'LLM-generated carrier compliance summaries, incident reports, or audit findings that are presented as human-authored documents without disclosure of AI generation.'},
+  {id:'ql_emotion',art:'Article 50(3)',tier:'limited',
+   text:'Does it infer emotions or intentions of natural persons based on biometric data in the context of work, education, or law enforcement?',
+   why:'Emotion inference from voice or facial data in workplace contexts creates surveillance pressure, is scientifically contested, and can be used to discriminate based on involuntary physiological responses.',
+   example:'A driver or carrier call monitoring system that uses voice stress analysis to flag negative sentiment or deception indicators in support conversations.'},
+  {id:'qg_gpai',art:'Articles 51-55',tier:'gpai',
+   text:'Is this a General-Purpose AI model trained on large amounts of data, capable of performing a wide range of tasks (foundation model, LLM, multimodal model)?',
+   why:'Foundation models have broad, hard-to-predict downstream uses. The provider cannot know all the ways their model will be deployed. Transparency about training data, capabilities, and limitations lets downstream operators make informed and responsible deployment decisions.',
+   example:'Amazon Bedrock Claude, Titan, or an internal LLM used as a base model for fraud detection reasoning, route optimisation, document generation, or carrier communication automation.'}
 ];
 
 const RQ={
@@ -426,6 +523,32 @@ const RQ={
     {id:'m2',m:'should',t:'AI Literacy Programme for Staff',d:'Ensure providers and deployers maintain sufficient AI literacy among staff responsible for the system, proportionate to the context and impact.',a:'Article 4'}
   ]
 };
+
+
+const TIMELINE=[
+  {date:'Aug 2024',label:'Act Entered Into Force',desc:'Regulation (EU) 2024/1689 published in the Official Journal and entered into force across all EU member states.',tiers:['all'],status:'done'},
+  {date:'Feb 2025',label:'Prohibited AI Enforceable',desc:'Chapter II (Art. 5 prohibited practices) and Art. 4 (AI literacy obligations) became fully enforceable. Systems matching prohibited criteria must have been withdrawn.',tiers:['unacceptable'],status:'done'},
+  {date:'Aug 2025',label:'GPAI + Governance Live',desc:'Chapter V (GPAI model obligations, Arts. 51-55), Chapter VII (governance, EU AI Office), and Chapter XII (penalties) fully operational. GPAI providers must have documentation and copyright policies in place.',tiers:['gpai'],status:'done'},
+  {date:'Aug 2026',label:'High-Risk Annex III Deadline',desc:'Full compliance required for all high-risk AI systems listed in Annex III. Conformity assessments, EU database registration, human oversight measures, deployer fundamental rights impact assessments — all now enforceable. THIS DEADLINE HAS PASSED.',tiers:['high'],status:'overdue'},
+  {date:'Now',label:'You Are Here',desc:'September 2026. High-risk Annex III systems are past their compliance deadline. If your system is high-risk and not yet compliant, this is an active regulatory exposure.',tiers:['high','gpai','limited','unacceptable'],status:'now'},
+  {date:'Aug 2027',label:'High-Risk Annex I Systems',desc:'High-risk AI systems embedded in products covered by existing EU product safety legislation (Annex I — machinery, medical devices, vehicles, aviation) must comply.',tiers:['high'],status:'upcoming'}
+];
+
+const ISO42001=[
+  {id:'iso_policy',clause:'§5.2',title:'AI Policy',desc:'Establish, document, and communicate a formal AI policy stating the organisation\'s commitment to responsible AI development and use.',eumap:'Art. 47 (Declaration of Conformity)',mandatory:true},
+  {id:'iso_risk_proc',clause:'§6.1.2',title:'AI Risk Assessment Process',desc:'Define and implement a documented process for identifying, analysing, and evaluating AI-specific risks throughout the system lifecycle.',eumap:'Art. 9 (Risk Management System)',mandatory:true},
+  {id:'iso_risk_treat',clause:'§6.1.3',title:'AI Risk Treatment Plan',desc:'Document the selected risk treatment options and controls for each identified AI risk, with assigned ownership and timelines.',eumap:'Art. 9 (Risk Management System)',mandatory:true},
+  {id:'iso_literacy',clause:'§7.2',title:'AI Competence and Literacy',desc:'Ensure all persons operating, overseeing, or affected by AI systems have appropriate AI literacy. Maintain records of competence.',eumap:'Art. 4 (AI Literacy)',mandatory:true},
+  {id:'iso_docs',clause:'§7.5',title:'Documented Information',desc:'Maintain documented information required by ISO 42001 and as determined necessary for AIMS effectiveness. Version control and review processes required.',eumap:'Art. 11 (Technical Documentation)',mandatory:true},
+  {id:'iso_impact',clause:'§8.3',title:'AI System Impact Assessment',desc:'Conduct an impact assessment covering intended use, potential misuse, affected stakeholders, and societal impact before deployment.',eumap:'Art. 27 (FRIA for deployers)',mandatory:true},
+  {id:'iso_data',clause:'§8.4',title:'Data Management for AI',desc:'Implement controls over data quality, provenance, collection methods, preprocessing, bias evaluation, and data governance throughout the AI lifecycle.',eumap:'Art. 10 (Data Governance)',mandatory:true},
+  {id:'iso_transparency',clause:'§8.5',title:'AI System Transparency',desc:'Ensure the AI system\'s capabilities, limitations, intended purpose, and decision logic are documented and communicated to relevant stakeholders at appropriate levels.',eumap:'Art. 13 (Transparency to Deployers)',mandatory:true},
+  {id:'iso_oversight',clause:'§8.7',title:'Human Oversight Mechanisms',desc:'Define and implement mechanisms enabling human review, intervention, override, and shutdown of AI system outputs. Document who has oversight authority and how it is exercised.',eumap:'Art. 14 (Human Oversight)',mandatory:true},
+  {id:'iso_monitoring',clause:'§8.8',title:'Operational AI System Monitoring',desc:'Monitor AI system performance in production: detect drift, anomalies, and unintended outputs. Define thresholds triggering human review or system suspension.',eumap:'Art. 12 (Logging) + Art. 72 (Post-market)',mandatory:true},
+  {id:'iso_audit',clause:'§9.2',title:'Internal Audit Programme',desc:'Conduct internal audits at planned intervals to assess whether the AI management system conforms to requirements and is effectively implemented.',eumap:'Art. 47 (DoC assurance)',mandatory:false},
+  {id:'iso_mgmt_review',clause:'§9.3',title:'Management Review',desc:'Senior leadership must periodically review the AI management system to ensure its continuing suitability, adequacy, and effectiveness.',eumap:'— (ISO 42001 specific)',mandatory:false},
+  {id:'iso_improve',clause:'§10.1',title:'Continual Improvement',desc:'Continually improve the suitability, adequacy, and effectiveness of the AI management system. Act on audit findings, incidents, and performance data.',eumap:'Art. 72 (Post-market monitoring)',mandatory:false}
+];
 
 function classify(){
   const q=S.qualifiers;
@@ -482,23 +605,27 @@ function save1(){
 function step2(){
   const allAns=Object.keys(S.qualifiers).length>=QS.length;
   const answered=Object.keys(S.qualifiers).length;
-  return '<div class="step-panel"><div class="card">'
-  +'<div class="card-title">Risk Qualifier Questions</div>'
-  +'<div class="card-sub">Answer all 14 questions. Each maps to a specific EU AI Act article. Answer No if the criterion does not apply to your system. <strong style="color:var(--accent2)">'+answered+'/14 answered.</strong></div>'
-  +QS.map(q=>{
+  let html='<div class="step-panel"><div class="card">'
+    +'<div class="card-title">Risk Qualifier Questions</div>'
+    +'<div class="card-sub">Answer all 14 questions mapped to EU AI Act articles. Click <strong style="color:var(--accent2)">Why does this matter?</strong> on any question for plain-English context and examples. <strong style="color:var(--accent2)">'+answered+'/14 answered.</strong></div>';
+  QS.forEach(q=>{
     const ans=S.qualifiers[q.id];
-    return '<div class="question-block'+(ans?' answered':'')+'" id="qb_'+q.id+'" data-qid="'+q.id+'">'
+    html+='<div class="question-block'+(ans?' answered':'')+'" id="qb_'+q.id+'" data-qid="'+q.id+'">'
     +'<div class="q-art">'+q.art+'</div>'
     +'<div class="q-text">'+q.text+'</div>'
-    +'<div class="yn-row">'
-    +'<button class="yn-btn yes'+(ans==='yes'?' active':'')+('" onclick="ansQYes(this)" data-val="yes">&#10005; Yes &mdash; applies to this system</button>')
-    +'<button class="yn-btn no'+(ans==='no'?' active':'')+('" onclick="ansQNo(this)" data-val="no">&#10003; No &mdash; does not apply</button>')
+    +'<details class="q-why"><summary>Why does this matter?</summary>'
+    +'<div class="q-why-body"><p>'+q.why+'</p>'
+    +'<p><strong>Amazon/logistics example:</strong> '+q.example+'</p></div></details>'
+    +'<div class="yn-row" style="margin-top:12px">'
+    +'<button class="yn-btn yes'+(ans==='yes'?' active':'')+('" onclick="ansQYes(this)">&#10005; Yes &mdash; applies to this system</button>')
+    +'<button class="yn-btn no'+(ans==='no'?' active':'')+('" onclick="ansQNo(this)">&#10003; No &mdash; does not apply</button>')
     +'</div></div>';
-  }).join('')
-  +'<div class="btn-row">'
-  +'<button class="btn btn-secondary" onclick="go(1)">&#8592; Back</button>'
-  +'<button class="btn btn-primary" id="s2btn" onclick="save2()"'+(allAns?'':' disabled')+'>Continue &#8594; Technical Controls</button>'
-  +'</div></div></div>';
+  });
+  html+='<div class="btn-row">'
+    +'<button class="btn btn-secondary" onclick="go(1)">&#8592; Back</button>'
+    +'<button class="btn btn-primary" id="s2btn" onclick="save2()"'+(allAns?'':' disabled')+'>Continue &#8594; Technical Controls</button>'
+    +'</div></div></div>';
+  return html;
 }
 
 function ansQYes(btn){ansQ(btn.closest('.question-block').dataset.qid,'yes');}
@@ -555,6 +682,78 @@ function tog(id){
   if(el){el.classList.toggle('checked',S.controls[id]);const b=el.querySelector('.check-box');if(b)b.innerHTML=S.controls[id]?'&#10003;':'';}
 }
 
+function renderTimeline(tier){
+  const relevant=TIMELINE.filter(t=>t.tiers.includes('all')||t.tiers.includes(tier));
+  let html='<div class="timeline-wrap">';
+  relevant.forEach(t=>{
+    const dotCls=t.status==='done'?'done':t.status==='overdue'?'overdue':t.status==='now'?'now':'upcoming';
+    const lblCls=dotCls;
+    html+='<div class="timeline-row"><div class="tl-item">'
+    +'<div class="tl-dot '+dotCls+'"></div>'
+    +'<div class="tl-content">'
+    +'<div class="tl-date">'+t.date+'</div>'
+    +'<div class="tl-label '+lblCls+'">'+t.label+'</div>'
+    +'<div class="tl-desc">'+t.desc+'</div>';
+    if(t.status==='done') html+='<div class="tl-tag done">&#10003; In force</div>';
+    else if(t.status==='overdue') html+='<div class="tl-tag overdue">&#9888; Deadline passed</div>';
+    else if(t.status==='now') html+='<div class="tl-tag now">&#9654; You are here &mdash; Sep 2026</div>';
+    else html+='<div class="tl-tag upcoming">&#9679; Upcoming</div>';
+    html+='</div></div></div>';
+  });
+  html+='</div>';
+  return html;
+}
+
+function renderISO(tier){
+  const reqs=RQ[tier]||[];
+  const euChecked=reqs.filter(r=>S.controls[r.id]);
+  const isoChecked=ISO42001.filter(r=>S.iso&&S.iso[r.id]);
+  const isoTotal=ISO42001.length;
+  const isoMust=ISO42001.filter(r=>r.mandatory);
+  const isoMustChk=isoMust.filter(r=>S.iso&&S.iso[r.id]);
+  const isoScore=isoTotal===0?100:Math.round((isoChecked.length/isoTotal)*100);
+  const isoMustScore=isoMust.length===0?100:Math.round((isoMustChk.length/isoMust.length)*100);
+  const sc=isoScore>=80?'#22c55e':isoScore>=50?'#f59e0b':'#ef4444';
+  let html='<div class="iso-score-row">'
+    +'<div class="iso-score-card"><div class="iso-score-val" style="color:'+sc+'">'+isoScore+'%</div><div class="iso-score-lbl">ISO 42001 Coverage</div></div>'
+    +'<div class="iso-score-card"><div class="iso-score-val" style="color:'+(isoMustScore>=100?'#22c55e':'#ef4444')+'">'+isoMustScore+'%</div><div class="iso-score-lbl">Core Clauses Met</div></div>'
+    +'<div class="iso-score-card"><div class="iso-score-val" style="color:var(--accent2)">'+(isoTotal-isoChecked.length)+'</div><div class="iso-score-lbl">Open Gaps</div></div>'
+    +'</div>';
+  html+='<div class="section-header">&#128218; ISO/IEC 42001:2023 Checklist</div>';
+  html+='<p style="font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.6">ISO/IEC 42001:2023 is the AI Management System standard. EU AI Act high-risk conformity assessments may reference this standard. Check each clause your organisation has implemented.</p>';
+  ISO42001.forEach(r=>{
+    const chk=S.iso&&S.iso[r.id]||false;
+    html+='<div class="iso-row mapped'+(chk?' checked':'')+'" id="iso_'+r.id+'" data-iid="'+r.id+'" onclick="togISO(this)" style="cursor:pointer'+(chk?';border-left-color:var(--success)':'')+'">'
+    +'<div class="check-box" style="'+(chk?'background:var(--success);border-color:var(--success);color:#fff;font-size:12px':'')+'border:2px solid var(--border);border-radius:5px;width:20px;height:20px;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px">'+(chk?'&#10003;':'')+'</div>'
+    +'<div style="flex:1">'
+    +'<div class="iso-title">'+r.title+'</div>'
+    +'<div class="iso-map">'+r.desc+'</div>'
+    +(r.eumap!=='— (ISO 42001 specific)'?'<div class="iso-map" style="margin-top:4px">Maps to EU AI Act: <span>'+r.eumap+'</span></div>':'<div class="iso-map" style="margin-top:4px;color:var(--accent2)">ISO 42001 specific (no direct EU AI Act equivalent)</div>')
+    +'</div>'
+    +'<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;flex-shrink:0">'
+    +'<div class="iso-clause">'+r.clause+'</div>'
+    +'<div style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;background:'+(r.mandatory?'rgba(239,68,68,.15)':'rgba(245,158,11,.15)')+';color:'+(r.mandatory?'#ef4444':'#f59e0b')+'">'+(r.mandatory?'CORE':'ENHANCE')+'</div>'
+    +'</div></div>';
+  });
+  return html;
+}
+
+function togISO(el){
+  if(!S.iso)S.iso={};
+  const id=el.dataset.iid;
+  S.iso[id]=!S.iso[id];
+  const chk=S.iso[id];
+  el.classList.toggle('checked',chk);
+  el.style.borderLeftColor=chk?'var(--success)':'';
+  const box=el.querySelector('.check-box');
+  if(box){box.innerHTML=chk?'&#10003;':'';if(chk){box.style.background='var(--success)';box.style.borderColor='var(--success)';box.style.color='#fff';}else{box.style.background='';box.style.borderColor='var(--border)';box.style.color='';}}
+}
+
+function switchTab(tab){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active',p.dataset.panel===tab));
+}
+
 function step4(){
   const tier=S.tier;const reqs=RQ[tier]||[];
   const total=reqs.length;
@@ -566,11 +765,11 @@ function step4(){
   const missing=reqs.filter(r=>!S.controls[r.id]&&r.m==='must');
   const gaps=reqs.filter(r=>!S.controls[r.id]);
   const TM={
-    unacceptable:{icon:'&#128683;',cls:'unacceptable',label:'PROHIBITED',col:'#ef4444',title:'Prohibited AI Practice Detected',sub:'This system meets the criteria for a prohibited AI practice under Article 5 of the EU AI Act. It must not be deployed in the EU.'},
-    high:{icon:'&#9888;',cls:'high',label:'HIGH RISK',col:'#f59e0b',title:'High-Risk AI System',sub:'Classified as high-risk under Annex III of the EU AI Act. Full compliance obligations apply before deployment in the EU.'},
-    limited:{icon:'&#9889;',cls:'limited',label:'LIMITED RISK',col:'#3b82f6',title:'Limited Risk AI System',sub:'Transparency obligations apply under Article 50. Users must be clearly informed when interacting with AI or encountering synthetic content.'},
-    gpai:{icon:'&#129302;',cls:'gpai',label:'GPAI MODEL',col:'#818cf8',title:'General-Purpose AI Model',sub:'Subject to GPAI obligations under Articles 51-55, including technical documentation, training data transparency, and copyright compliance.'},
-    minimal:{icon:'&#10003;',cls:'minimal',label:'MINIMAL RISK',col:'#22c55e',title:'Minimal Risk AI System',sub:'No mandatory obligations under the EU AI Act. Voluntary codes of conduct under Article 95 are encouraged.'}
+    unacceptable:{icon:'&#128683;',cls:'unacceptable',label:'PROHIBITED',col:'#ef4444',title:'Prohibited AI Practice Detected',sub:'This system meets criteria for a prohibited practice under Article 5. It must not be deployed in the EU.'},
+    high:{icon:'&#9888;',cls:'high',label:'HIGH RISK',col:'#f59e0b',title:'High-Risk AI System',sub:'Classified under Annex III. Full compliance obligations apply and the August 2026 deadline has now passed.'},
+    limited:{icon:'&#9889;',cls:'limited',label:'LIMITED RISK',col:'#3b82f6',title:'Limited Risk AI System',sub:'Transparency obligations apply under Article 50. Users must be informed about AI interaction and synthetic content.'},
+    gpai:{icon:'&#129302;',cls:'gpai',label:'GPAI MODEL',col:'#818cf8',title:'General-Purpose AI Model',sub:'GPAI obligations under Articles 51-55 apply. The August 2025 deadline has passed.'},
+    minimal:{icon:'&#10003;',cls:'minimal',label:'MINIMAL RISK',col:'#22c55e',title:'Minimal Risk AI System',sub:'No mandatory obligations under the EU AI Act. Voluntary codes of conduct are encouraged.'}
   }[tier];
   const sc=score>=80?'#22c55e':score>=50?'#f59e0b':'#ef4444';
   const R=54,C=+(2*Math.PI*R).toFixed(1),D=+(C-score/100*C).toFixed(1);
@@ -579,12 +778,30 @@ function step4(){
   html+='<div style="margin-bottom:8px"><span class="risk-badge '+TM.cls+'">'+TM.label+'</span></div>';
   html+='<div class="result-title">'+TM.title+'</div><div class="result-sub">'+TM.sub+'</div></div></div>';
   html+='<div class="metrics-row">';
-  html+='<div class="metric-card"><div class="metric-value" style="color:'+sc+'">'+score+'%</div><div class="metric-label">Overall Compliance</div></div>';
+  html+='<div class="metric-card"><div class="metric-value" style="color:'+sc+'">'+score+'%</div><div class="metric-label">EU AI Act Compliance</div></div>';
   html+='<div class="metric-card"><div class="metric-value" style="color:'+(mScore>=100?'#22c55e':'#ef4444')+'">'+mScore+'%</div><div class="metric-label">Mandatory Requirements</div></div>';
   html+='<div class="metric-card"><div class="metric-value" style="color:'+(missing.length===0?'#22c55e':'#ef4444')+'">'+missing.length+'</div><div class="metric-label">Critical Gaps</div></div>';
   html+='</div>';
+
+  // Compliance Timeline
+  if(tier!=='minimal'){
+    html+='<div class="card"><div class="section-header">&#128197; Compliance Timeline &mdash; EU AI Act Rollout</div>'
+    +renderTimeline(tier)+'</div>';
+  }
+
+  // Tabbed results card
+  const showISO=(tier==='high'||tier==='gpai');
   html+='<div class="card">';
-  html+='<div class="section-header">&#128203; Compliance Overview &mdash; '+esc(S.profile.name||'AI System')+'</div>';
+  if(showISO){
+    html+='<div class="tab-row">'
+    +'<button class="tab-btn active" data-tab="euact" onclick="switchTab(this.dataset.tab)">&#9878; EU AI Act Requirements</button>'
+    +'<button class="tab-btn" data-tab="iso" onclick="switchTab(this.dataset.tab)">&#128218; ISO/IEC 42001:2023</button>'
+    +'</div>';
+  }
+
+  // EU AI Act tab
+  html+='<div class="tab-panel active" data-panel="euact">';
+  html+='<div class="section-header">&#128203; '+esc(S.profile.name||'AI System')+' &mdash; Compliance Overview</div>';
   html+='<div style="display:flex;align-items:center;gap:24px;margin-bottom:24px;padding:20px;background:var(--surface2);border-radius:10px">';
   html+='<div style="position:relative;width:130px;height:130px;flex-shrink:0">';
   html+='<svg width="130" height="130" viewBox="0 0 130 130" style="transform:rotate(-90deg)">';
@@ -605,13 +822,21 @@ function step4(){
     html+='<div style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:'+(r.m==='must'?'rgba(239,68,68,.15)':'rgba(245,158,11,.15)')+';color:'+(r.m==='must'?'#ef4444':'#f59e0b')+';flex-shrink:0;margin-top:1px">'+r.m.toUpperCase()+'</div></div>';
   });
   html+='</div>';
+
+  // ISO 42001 tab
+  if(showISO){
+    html+='<div class="tab-panel" data-panel="iso">'+renderISO(tier)+'</div>';
+  }
+  html+='</div>';
+
+  // Priority actions
   if(gaps.length>0){
     html+='<div class="card"><div class="section-header">&#127919; Priority Actions</div>';
     missing.forEach((r,i)=>{html+='<div class="action-item critical"><div class="action-num">'+(i+1)+'</div><div><div class="action-title">CRITICAL: '+r.t+'</div><div class="action-desc">'+r.d+' <span style="color:var(--accent2)">('+r.a+')</span></div></div></div>';});
     gaps.filter(r=>r.m==='should').forEach((r,i)=>{html+='<div class="action-item warning"><div class="action-num" style="background:var(--warning)">'+(missing.length+i+1)+'</div><div><div class="action-title">RECOMMENDED: '+r.t+'</div><div class="action-desc">'+r.d+' <span style="color:var(--accent2)">('+r.a+')</span></div></div></div>';});
     html+='</div>';
   }else{
-    html+='<div class="card" style="border-color:rgba(34,197,94,.3)"><div style="display:flex;align-items:center;gap:16px"><div style="font-size:40px">&#127881;</div><div><div style="font-size:16px;font-weight:700;color:var(--success)">All requirements met!</div><div style="font-size:13px;color:var(--muted);margin-top:4px">No compliance gaps identified for the checked requirements.</div></div></div></div>';
+    html+='<div class="card" style="border-color:rgba(34,197,94,.3)"><div style="display:flex;align-items:center;gap:16px"><div style="font-size:40px">&#127881;</div><div><div style="font-size:16px;font-weight:700;color:var(--success)">All requirements met!</div><div style="font-size:13px;color:var(--muted);margin-top:4px">No compliance gaps identified.</div></div></div></div>';
   }
   html+='<div class="btn-row" style="justify-content:space-between">';
   html+='<button class="btn btn-secondary" onclick="go(3)">&#8592; Back to Checklist</button>';
