@@ -589,6 +589,24 @@ const ISO42001=[
   {id:'iso_improve',clause:'§10.1',title:'Continual Improvement',desc:'Continually improve the suitability, adequacy, and effectiveness of the AI management system. Act on audit findings, incidents, and performance data.',eumap:'Art. 72 (Post-market monitoring)',mandatory:false}
 ];
 
+const NIST_AIRMF=[
+  {id:'nist_gov11',fn:'GOVERN',clause:'GOV 1.1',title:'Legal and Regulatory Requirements Understood',desc:'Legal and regulatory requirements involving AI are understood, managed, and documented as part of the organisation\'s risk management process.',eumap:'Art. 9 (Risk Management System)',mandatory:true},
+  {id:'nist_gov12',fn:'GOVERN',clause:'GOV 1.2',title:'Risk Management Roles and Responsibilities',desc:'The characteristics of trustworthy AI are integrated into policies, and roles/responsibilities for managing AI risk are clearly defined.',eumap:'Art. 4 (AI Literacy)',mandatory:false},
+  {id:'nist_gov15',fn:'GOVERN',clause:'GOV 1.5',title:'Ongoing Monitoring of Risk Management',desc:'Ongoing monitoring and periodic review of the risk management process and its outcomes are planned, with responsible parties identified.',eumap:'Art. 72 (Post-market Monitoring)',mandatory:false},
+  {id:'nist_gov4',fn:'GOVERN',clause:'GOV 4.1',title:'Safety-First Organisational Culture',desc:'Organisational policies and practices foster a critical thinking and safety-first mindset in the design, development, and use of AI systems.',eumap:'— (NIST AI RMF specific)',mandatory:false},
+  {id:'nist_map11',fn:'MAP',clause:'MAP 1.1',title:'AI System Context Documented',desc:'Intended purpose, deployment context, and expected benefits and costs of the AI system are understood and documented.',eumap:'Art. 13 (Transparency to Deployers)',mandatory:true},
+  {id:'nist_map23',fn:'MAP',clause:'MAP 2.3',title:'Scientific Integrity and TEVV Methods',desc:'Scientifically valid Test, Evaluation, Verification and Validation (TEVV) methods are identified and applied for the AI system.',eumap:'Art. 15 (Accuracy, Robustness, Cybersecurity)',mandatory:false},
+  {id:'nist_map34',fn:'MAP',clause:'MAP 3.4',title:'Stakeholder Feedback on Risk',desc:'Processes for engaging with and gathering feedback from relevant stakeholders on AI risk are in place and inform system design.',eumap:'Art. 9 (Risk Management System)',mandatory:false},
+  {id:'nist_map51',fn:'MAP',clause:'MAP 5.1',title:'Impact Likelihood and Magnitude Identified',desc:'Likelihood and magnitude of each identified impact, both positive and negative, are assessed based on expected use and past uses.',eumap:'Art. 9 (Risk Management System)',mandatory:false},
+  {id:'nist_meas11',fn:'MEASURE',clause:'MEASURE 1.1',title:'Risk Measurement Approaches Identified',desc:'Approaches and metrics for measuring identified AI risks are selected based on their soundness and appropriateness for the context.',eumap:'Art. 15 (Accuracy, Robustness, Cybersecurity)',mandatory:true},
+  {id:'nist_meas23',fn:'MEASURE',clause:'MEASURE 2.3',title:'Performance Evaluated with Real-World Data',desc:'AI system performance and robustness are evaluated using relevant, representative data resembling deployment conditions.',eumap:'Art. 15 (Accuracy, Robustness, Cybersecurity)',mandatory:false},
+  {id:'nist_meas27',fn:'MEASURE',clause:'MEASURE 2.7',title:'Security and Resilience Evaluated',desc:'AI system security and resilience — including against adversarial attacks — are evaluated and documented.',eumap:'Art. 15 (Accuracy, Robustness, Cybersecurity)',mandatory:false},
+  {id:'nist_meas32',fn:'MEASURE',clause:'MEASURE 3.2',title:'Mechanisms for Tracking Incidents',desc:'Mechanisms are in place and maintained to track identified AI-related incidents, errors, and negative impacts.',eumap:'Art. 73 (Serious Incident Reporting)',mandatory:false},
+  {id:'nist_man13',fn:'MANAGE',clause:'MANAGE 1.3',title:'Risk Responses Documented and Monitored',desc:'Responses to identified AI risks are developed, documented, prioritised, and their implementation is monitored over time.',eumap:'Art. 9 (Risk Management System)',mandatory:true},
+  {id:'nist_man22',fn:'MANAGE',clause:'MANAGE 2.2',title:'Mechanisms to Sustain Value of Deployed Systems',desc:'Mechanisms are in place to supersede, disengage, or deactivate AI systems that demonstrate performance or outcomes inconsistent with intended use.',eumap:'Art. 72 (Post-market Monitoring)',mandatory:false},
+  {id:'nist_man41',fn:'MANAGE',clause:'MANAGE 4.1',title:'Post-Deployment Monitoring Implemented',desc:'Post-deployment AI system monitoring plans are implemented, including mechanisms for capturing user feedback and impact.',eumap:'Art. 72 (Post-market Monitoring)',mandatory:false}
+];
+
 function classify(){
   const q=S.qualifiers;
   if(q.qu_social==='yes'||q.qu_subliminal==='yes'||q.qu_biometric==='yes') return 'unacceptable';
@@ -788,6 +806,55 @@ function togISO(el){
   if(box){box.innerHTML=chk?'&#10003;':'';if(chk){box.style.background='var(--success)';box.style.borderColor='var(--success)';box.style.color='#fff';}else{box.style.background='';box.style.borderColor='var(--border)';box.style.color='';}}
 }
 
+function renderNIST(tier){
+  const items=NIST_AIRMF;
+  const checked=items.filter(r=>S.nist&&S.nist[r.id]);
+  const total=items.length;
+  const must=items.filter(r=>r.mandatory);
+  const mustChk=must.filter(r=>S.nist&&S.nist[r.id]);
+  const score=total===0?100:Math.round((checked.length/total)*100);
+  const mustScore=must.length===0?100:Math.round((mustChk.length/must.length)*100);
+  const sc=score>=80?'#22c55e':score>=50?'#f59e0b':'#ef4444';
+  let html='<div class="iso-score-row">'
+    +'<div class="iso-score-card"><div class="iso-score-val" style="color:'+sc+'">'+score+'%</div><div class="iso-score-lbl">NIST AI RMF Coverage</div></div>'
+    +'<div class="iso-score-card"><div class="iso-score-val" style="color:'+(mustScore>=100?'#22c55e':'#ef4444')+'">'+mustScore+'%</div><div class="iso-score-lbl">Core Subcategories Met</div></div>'
+    +'<div class="iso-score-card"><div class="iso-score-val" style="color:var(--accent2)">'+(total-checked.length)+'</div><div class="iso-score-lbl">Open Gaps</div></div>'
+    +'</div>';
+  html+='<div class="section-header">&#128506; NIST AI RMF 1.0 Checklist</div>';
+  html+='<p style="font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.6">The NIST AI Risk Management Framework (voluntary, US) organises AI risk practices into four functions: GOVERN, MAP, MEASURE, MANAGE. Useful as a cross-jurisdiction checklist alongside EU AI Act obligations. Check each subcategory your organisation has implemented.</p>';
+  ['GOVERN','MAP','MEASURE','MANAGE'].forEach(fn=>{
+    const fnItems=items.filter(r=>r.fn===fn);
+    if(!fnItems.length)return;
+    html+='<div style="font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--accent2);margin:16px 0 8px">'+fn+'</div>';
+    fnItems.forEach(r=>{
+      const chk=S.nist&&S.nist[r.id]||false;
+      html+='<div class="iso-row mapped'+(chk?' checked':'')+'" id="nist_'+r.id+'" data-nid="'+r.id+'" onclick="togNIST(this)" style="cursor:pointer'+(chk?';border-left-color:var(--success)':'')+'">'
+      +'<div class="check-box" style="'+(chk?'background:var(--success);border-color:var(--success);color:#fff;font-size:12px':'')+'border:2px solid var(--border);border-radius:5px;width:20px;height:20px;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px">'+(chk?'&#10003;':'')+'</div>'
+      +'<div style="flex:1">'
+      +'<div class="iso-title">'+r.title+'</div>'
+      +'<div class="iso-map">'+r.desc+'</div>'
+      +(r.eumap!=='— (NIST AI RMF specific)'?'<div class="iso-map" style="margin-top:4px">Maps to EU AI Act: <span>'+r.eumap+'</span></div>':'<div class="iso-map" style="margin-top:4px;color:var(--accent2)">NIST AI RMF specific (no direct EU AI Act equivalent)</div>')
+      +'</div>'
+      +'<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;flex-shrink:0">'
+      +'<div class="iso-clause">'+r.clause+'</div>'
+      +'<div style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;background:'+(r.mandatory?'rgba(239,68,68,.15)':'rgba(245,158,11,.15)')+';color:'+(r.mandatory?'#ef4444':'#f59e0b')+'">'+(r.mandatory?'CORE':'ENHANCE')+'</div>'
+      +'</div></div>';
+    });
+  });
+  return html;
+}
+
+function togNIST(el){
+  if(!S.nist)S.nist={};
+  const id=el.dataset.nid;
+  S.nist[id]=!S.nist[id];
+  const chk=S.nist[id];
+  el.classList.toggle('checked',chk);
+  el.style.borderLeftColor=chk?'var(--success)':'';
+  const box=el.querySelector('.check-box');
+  if(box){box.innerHTML=chk?'&#10003;':'';if(chk){box.style.background='var(--success)';box.style.borderColor='var(--success)';box.style.color='#fff';}else{box.style.background='';box.style.borderColor='var(--border)';box.style.color='';}}
+}
+
 function switchTab(tab){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active',p.dataset.panel===tab));
@@ -835,6 +902,7 @@ function step4(){
     html+='<div class="tab-row">'
     +'<button class="tab-btn active" data-tab="euact" onclick="switchTab(this.dataset.tab)">&#9878; EU AI Act Requirements</button>'
     +'<button class="tab-btn" data-tab="iso" onclick="switchTab(this.dataset.tab)">&#128218; ISO/IEC 42001:2023</button>'
+    +'<button class="tab-btn" data-tab="nist" onclick="switchTab(this.dataset.tab)">&#128506; NIST AI RMF</button>'
     +'</div>';
   }
 
@@ -865,6 +933,7 @@ function step4(){
   // ISO 42001 tab
   if(showISO){
     html+='<div class="tab-panel" data-panel="iso">'+renderISO(tier)+'</div>';
+    html+='<div class="tab-panel" data-panel="nist">'+renderNIST(tier)+'</div>';
   }
   html+='</div>';
 

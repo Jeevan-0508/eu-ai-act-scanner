@@ -44,7 +44,7 @@ flowchart LR
 2. **Fill in the System Profile** — name your AI system, the team that owns it, its primary domain, and a one-line purpose. This is just for the report header, not classification.
 3. **Answer the 14 Risk Qualifier questions** — each maps to a specific article (Art. 5, Annex III, Art. 50, Arts. 51-55). Unsure why a question matters? Click "Explain why" under it for a plain-English breakdown with real-world examples.
 4. **Check off Technical Controls** — the app already narrowed the checklist to only the requirements that apply to your tier. Tick whatever you already have in place; anything left unchecked becomes a gap.
-5. **Read your Results** — risk tier, compliance score, mandatory-requirement score, and a prioritized action list (critical gaps first). High-Risk and GPAI tiers also get an ISO/IEC 42001 crosswalk tab.
+5. **Read your Results** — risk tier, compliance score, mandatory-requirement score, and a prioritized action list (critical gaps first). High-Risk and GPAI tiers also get ISO/IEC 42001 and NIST AI RMF crosswalk tabs.
 6. **Export the report** — one click downloads a self-contained HTML compliance report you can attach to an email, ticket, or audit file.
 7. **(Optional) Install it as an app** — it's a PWA, so it can run offline once installed (see links below).
 
@@ -82,6 +82,7 @@ flowchart TD
 | **36 compliance requirements** | Across all 5 tiers, tagged **MUST** (legally mandatory) or **SHOULD** (best practice) |
 | **Compliance Timeline** | Real phased rollout Aug 2024 → Aug 2027, flags deadlines already passed |
 | **ISO/IEC 42001:2023 crosswalk** | 13 management-system clauses mapped to AI Act articles, scored separately (High-Risk / GPAI tiers) |
+| **NIST AI RMF 1.0 crosswalk** | 14 subcategories across GOVERN / MAP / MEASURE / MANAGE, mapped to AI Act articles, scored separately (High-Risk / GPAI tiers) |
 | **Exportable HTML report** | Generated entirely client-side, no server round-trip |
 | **PWA** | Installable, works offline, network-first service worker so updates are never stuck behind a stale cache |
 | **Regulation-currency tracking** | "Last verified" badge + one-click check against the live EUR-Lex text — see [CHANGELOG.md](CHANGELOG.md) |
