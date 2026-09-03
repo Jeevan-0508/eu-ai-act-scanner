@@ -1,7 +1,7 @@
 {
-  "name": "EU AI Act Compliance Scanner",
-  "short_name": "AI Act Scanner",
-  "description": "Scan any AI system for EU AI Act 2024/1689 compliance. Risk classification, gap analysis, and exportable reports.",
+  "name": "AI Compliance Scanner",
+  "short_name": "AI Compliance",
+  "description": "Self-assess any AI system against the EU AI Act, ISO/IEC 42001, and NIST AI RMF — independent scoring for each framework, risk classification, and exportable reports.",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#0f1117",

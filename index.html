@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EU AI Act Compliance Scanner</title>
+<title>AI Compliance Scanner — EU AI Act, ISO 42001, NIST AI RMF</title>
 <meta name="description" content="Free tool to scan any AI system for EU AI Act (Regulation 2024/1689) compliance. Risk classification, gap analysis, exportable reports.">
 <meta name="theme-color" content="#6366f1">
 <link rel="manifest" href="./manifest.json">
@@ -26,6 +26,11 @@ body{background:var(--bg);color:var(--text);font-family:Inter,-apple-system,Blin
 
 /* ── Header ── */
 header{background:rgba(15,17,23,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:200;height:60px}
+.mainnav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;display:flex;gap:2px;position:sticky;top:60px;z-index:190;overflow-x:auto}
+.mainnav-btn{padding:14px 18px;font-size:13px;font-weight:600;color:var(--muted);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:6px;font-family:inherit;transition:all .15s}
+.mainnav-btn.active{color:var(--accent2);border-bottom-color:var(--accent)}
+.mainnav-btn:hover:not(.active){color:var(--text)}
+@media(max-width:700px){.mainnav-btn{padding:12px 12px;font-size:12px}}
 .logo-wrap{display:flex;align-items:center;gap:12px;text-decoration:none}
 .logo{width:36px;height:36px;background:linear-gradient(135deg,#4f46e5,#818cf8);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
 .logo-text{font-size:16px;font-weight:700;color:var(--text);letter-spacing:-.3px}
@@ -106,7 +111,8 @@ header{background:rgba(15,17,23,.95);backdrop-filter:blur(10px);border-bottom:1p
 .citation-text a:hover{text-decoration:underline}
 
 /* ── Scanner app ── */
-#app{display:none;flex-direction:column;flex:1}
+#page-euact{display:none;flex-direction:column;flex:1}
+#page-iso,#page-nist{display:none;flex-direction:column;flex:1}
 .progress-bar-wrap{background:var(--surface);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center}
 .step-pill{display:flex;align-items:center;gap:8px;padding:12px 16px;font-size:12px;font-weight:600;color:var(--muted);cursor:default;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap}
 .step-pill.active{color:var(--accent2);border-bottom-color:var(--accent)}
@@ -253,9 +259,9 @@ details.q-why summary:hover{background:rgba(99,102,241,.15)}
 </head>
 <body>
 <header>
-  <a class="logo-wrap" href="#" onclick="showLanding();return false">
+  <a class="logo-wrap" href="#" onclick="showPage('home');return false">
     <div class="logo">&#9878;</div>
-    <div><div class="logo-text">EU AI Act Scanner</div><div class="logo-sub">Regulation 2024/1689</div></div>
+    <div><div class="logo-text">AI Compliance Scanner</div><div class="logo-sub">EU AI Act &middot; ISO 42001 &middot; NIST AI RMF</div></div>
   </a>
   <div class="header-actions">
     <div class="eu-pill">&#9733; Free Tool</div>
@@ -267,18 +273,21 @@ details.q-why summary:hover{background:rgba(99,102,241,.15)}
   </div>
 </header>
 
-<!-- ═══════════ LANDING PAGE ═══════════ -->
-<div id="landing">
+<nav class="mainnav">
+  <button class="mainnav-btn active" data-page="home" onclick="showPage(this.dataset.page)">&#127968; Home</button>
+  <button class="mainnav-btn" data-page="euact" onclick="showPage(this.dataset.page)">&#9878; EU AI Act Scanner</button>
+  <button class="mainnav-btn" data-page="iso" onclick="showPage(this.dataset.page)">&#128218; ISO/IEC 42001 Scanner</button>
+  <button class="mainnav-btn" data-page="nist" onclick="showPage(this.dataset.page)">&#128506; NIST AI RMF Scanner</button>
+</nav>
+
+<!-- ═══════════ HOME PAGE ═══════════ -->
+<div id="page-home">
 
   <section class="hero">
     <div class="hero-bg"></div>
-    <div class="hero-eyebrow">&#128204; Regulation (EU) 2024/1689 &middot; In force since August 2024</div>
-    <h1>EU AI Act<br>Compliance Scanner</h1>
-    <p class="hero-sub">Find out your AI system's risk tier, mandatory obligations, and compliance gaps — in under 5 minutes. Based directly on the official EU AI Act text.</p>
-    <div class="hero-cta">
-      <button class="cta-primary" onclick="launchApp()">&#9654; Start Free Scan</button>
-      <a class="cta-secondary" href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401689" target="_blank" rel="noopener">&#128196; Read the Act</a>
-    </div>
+    <div class="hero-eyebrow">&#128204; Three frameworks &middot; One scanner &middot; Always free</div>
+    <h1>AI Compliance<br>Scanner</h1>
+    <p class="hero-sub">Self-assess your AI system against the EU AI Act, ISO/IEC 42001, and the NIST AI RMF — each with its own independent score. Runs entirely in your browser, in under 5 minutes per framework.</p>
     <div class="hero-note">
       <span>&#10003; No signup required</span>
       <span>&#10003; Runs entirely in your browser</span>
@@ -287,15 +296,42 @@ details.q-why summary:hover{background:rgba(99,102,241,.15)}
     </div>
   </section>
 
+  <section class="how-section" style="padding-top:0">
+    <div class="how-inner">
+      <div class="section-label">Choose a scanner</div>
+      <h2 class="section-title" style="text-align:center">Three frameworks, independently scored</h2>
+      <div class="tier-grid" style="grid-template-columns:repeat(3,1fr)">
+        <div class="tier-card high" style="cursor:pointer" onclick="showPage('euact')">
+          <div class="tier-icon">&#9878;</div>
+          <div class="tier-name high">EU AI ACT</div>
+          <div class="tier-desc">Risk classification (5 tiers) + full mandatory requirements checklist under Regulation (EU) 2024/1689.</div>
+          <span class="tier-art high">Start Scan &rarr;</span>
+        </div>
+        <div class="tier-card gpai" style="cursor:pointer" onclick="showPage('iso')">
+          <div class="tier-icon">&#128218;</div>
+          <div class="tier-name gpai">ISO/IEC 42001</div>
+          <div class="tier-desc">Self-assess your AI Management System against the international ISO/IEC 42001:2023 standard.</div>
+          <span class="tier-art gpai">Start Scan &rarr;</span>
+        </div>
+        <div class="tier-card limited" style="cursor:pointer" onclick="showPage('nist')">
+          <div class="tier-icon">&#128506;</div>
+          <div class="tier-name limited">NIST AI RMF</div>
+          <div class="tier-desc">Check coverage of the NIST AI Risk Management Framework — GOVERN, MAP, MEASURE, MANAGE.</div>
+          <span class="tier-art limited">Start Scan &rarr;</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <div class="stat-bar">
-    <div class="stat-item"><div class="stat-val">14</div><div class="stat-lbl">Risk qualifier<br>questions</div></div>
-    <div class="stat-item"><div class="stat-val">5</div><div class="stat-lbl">Risk tiers<br>covered</div></div>
-    <div class="stat-item"><div class="stat-val">27+</div><div class="stat-lbl">Compliance<br>requirements</div></div>
-    <div class="stat-item"><div class="stat-val">5min</div><div class="stat-lbl">Average<br>scan time</div></div>
+    <div class="stat-item"><div class="stat-val">3</div><div class="stat-lbl">Frameworks<br>covered</div></div>
+    <div class="stat-item"><div class="stat-val">5</div><div class="stat-lbl">EU AI Act<br>risk tiers</div></div>
+    <div class="stat-item"><div class="stat-val">50+</div><div class="stat-lbl">Compliance<br>requirements</div></div>
+    <div class="stat-item"><div class="stat-val">5min</div><div class="stat-lbl">Average scan<br>time each</div></div>
   </div>
 
   <section class="tiers-section">
-    <div class="section-label">Risk Classification</div>
+    <div class="section-label">EU AI Act &middot; Risk Classification</div>
     <h2 class="section-title">Five risk tiers under the EU AI Act</h2>
     <p class="section-sub">The scanner determines which tier applies and generates the full requirements checklist automatically.</p>
     <div class="tier-grid">
@@ -334,7 +370,7 @@ details.q-why summary:hover{background:rgba(99,102,241,.15)}
 
   <section class="how-section">
     <div class="how-inner">
-      <div class="section-label">How It Works</div>
+      <div class="section-label">EU AI Act &middot; How It Works</div>
       <h2 class="section-title" style="text-align:center">Four steps to compliance clarity</h2>
       <div class="steps-row">
         <div class="how-step">
@@ -399,8 +435,8 @@ details.q-why summary:hover{background:rgba(99,102,241,.15)}
   </footer>
 </div>
 
-<!-- ═══════════ SCANNER APP ═══════════ -->
-<div id="app" style="display:none">
+<!-- ═══════════ EU AI ACT SCANNER PAGE ═══════════ -->
+<div id="page-euact" style="display:none">
   <div class="progress-bar-wrap" id="progressBar">
     <div class="step-pill active" id="pill-1"><div class="step-num">1</div>&nbsp;System Profile</div>
     <span class="step-sep">&rsaquo;</span>
@@ -411,9 +447,25 @@ details.q-why summary:hover{background:rgba(99,102,241,.15)}
     <div class="step-pill" id="pill-4"><div class="step-num">4</div>&nbsp;Results &amp; Report</div>
   </div>
   <div class="app-back-bar">
-    <button class="app-back-link" onclick="showLanding()">&#8592; Back to home</button>
+    <button class="app-back-link" onclick="showPage('home')">&#8592; Back to home</button>
   </div>
   <div id="appMain"></div>
+</div>
+
+<!-- ═══════════ ISO/IEC 42001 SCANNER PAGE ═══════════ -->
+<div id="page-iso" style="display:none">
+  <div class="app-back-bar">
+    <button class="app-back-link" onclick="showPage('home')">&#8592; Back to home</button>
+  </div>
+  <div id="isoMain" style="max-width:860px;width:100%;margin:0 auto;padding:40px 24px"></div>
+</div>
+
+<!-- ═══════════ NIST AI RMF SCANNER PAGE ═══════════ -->
+<div id="page-nist" style="display:none">
+  <div class="app-back-bar">
+    <button class="app-back-link" onclick="showPage('home')">&#8592; Back to home</button>
+  </div>
+  <div id="nistMain" style="max-width:860px;width:100%;margin:0 auto;padding:40px 24px"></div>
 </div>
 
 <script>
@@ -449,17 +501,37 @@ function checkForUpdates(){
 }
 
 
-function showLanding(){
-  document.getElementById('landing').style.display='';
-  document.getElementById('app').style.display='none';
+function showPage(name){
+  const pages={home:'page-home',euact:'page-euact',iso:'page-iso',nist:'page-nist'};
+  Object.keys(pages).forEach(function(key){
+    const el=document.getElementById(pages[key]);
+    if(!el)return;
+    if(key===name)el.style.display=(key==='home')?'':'flex';
+    else el.style.display='none';
+  });
+  document.querySelectorAll('.mainnav-btn').forEach(function(b){b.classList.toggle('active',b.dataset.page===name);});
   window.scrollTo({top:0,behavior:'smooth'});
+  if(name==='euact')render();
+  if(name==='iso')renderPageISO();
+  if(name==='nist')renderPageNIST();
 }
-function launchApp(){
-  document.getElementById('landing').style.display='none';
-  const app=document.getElementById('app');
-  app.style.display='flex';
-  window.scrollTo({top:0,behavior:'smooth'});
-  render();
+function showLanding(){showPage('home');}
+function launchApp(){showPage('euact');}
+
+function renderPageISO(){
+  const el=document.getElementById('isoMain');
+  if(!el)return;
+  const checked=ISO42001.filter(function(r){return S.iso&&S.iso[r.id];});
+  el.innerHTML='<div class="step-panel"><div class="card-title" style="font-size:22px;margin-bottom:6px">&#128218; ISO/IEC 42001:2023 Compliance Scanner</div>'
+    +'<div class="card-sub" style="margin-bottom:24px">Self-assess your AI Management System against the ISO/IEC 42001:2023 standard. Independent of the EU AI Act — check off what you already have in place and get your own ISO coverage score.</div>'
+    +'<div class="card" data-panel="iso">'+renderISO()+'</div></div>';
+}
+function renderPageNIST(){
+  const el=document.getElementById('nistMain');
+  if(!el)return;
+  el.innerHTML='<div class="step-panel"><div class="card-title" style="font-size:22px;margin-bottom:6px">&#128506; NIST AI RMF 1.0 Compliance Scanner</div>'
+    +'<div class="card-sub" style="margin-bottom:24px">Self-assess against the NIST AI Risk Management Framework (voluntary, US) — GOVERN, MAP, MEASURE, MANAGE. Independent of the EU AI Act — check off what’s implemented and get your own NIST coverage score.</div>'
+    +'<div class="card" data-panel="nist">'+renderNIST()+'</div></div>';
 }
 
 // PWA
@@ -889,19 +961,8 @@ function step4(){
     +renderTimeline(tier)+'</div>';
   }
 
-  // Tabbed results card
-  const showISO=(tier==='high'||tier==='gpai');
+  // Results card
   html+='<div class="card">';
-  if(showISO){
-    html+='<div class="tab-row">'
-    +'<button class="tab-btn active" data-tab="euact" onclick="switchTab(this.dataset.tab)">&#9878; EU AI Act Requirements</button>'
-    +'<button class="tab-btn" data-tab="iso" onclick="switchTab(this.dataset.tab)">&#128218; ISO/IEC 42001:2023</button>'
-    +'<button class="tab-btn" data-tab="nist" onclick="switchTab(this.dataset.tab)">&#128506; NIST AI RMF</button>'
-    +'</div>';
-  }
-
-  // EU AI Act tab
-  html+='<div class="tab-panel active" data-panel="euact">';
   html+='<div class="section-header">&#128203; '+esc(S.profile.name||'AI System')+' &mdash; Compliance Overview</div>';
   html+='<div style="display:flex;align-items:center;gap:24px;margin-bottom:24px;padding:20px;background:var(--surface2);border-radius:10px">';
   html+='<div style="position:relative;width:130px;height:130px;flex-shrink:0">';
@@ -923,12 +984,6 @@ function step4(){
     html+='<div style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:'+(r.m==='must'?'rgba(239,68,68,.15)':'rgba(245,158,11,.15)')+';color:'+(r.m==='must'?'#ef4444':'#f59e0b')+';flex-shrink:0;margin-top:1px">'+r.m.toUpperCase()+'</div></div>';
   });
   html+='</div>';
-
-  // ISO 42001 tab
-  if(showISO){
-    html+='<div class="tab-panel" data-panel="iso">'+renderISO(tier)+'</div>';
-    html+='<div class="tab-panel" data-panel="nist">'+renderNIST(tier)+'</div>';
-  }
   html+='</div>';
 
   // Priority actions

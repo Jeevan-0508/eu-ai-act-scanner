@@ -2,9 +2,9 @@
 
 <div align="center">
 
-# EU AI Act Compliance Scanner
+# AI Compliance Scanner
 
-**Classify any AI system against Regulation (EU) 2024/1689 in under 10 minutes.**
+**EU AI Act &middot; ISO/IEC 42001 &middot; NIST AI RMF — three frameworks, each with its own independent score, in under 10 minutes each.**
 No signup. No server. No data ever leaves your browser.
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-jeevan--0508.github.io-6366f1?style=for-the-badge)](https://jeevan-0508.github.io/eu-ai-act-scanner)
@@ -25,28 +25,33 @@ No signup. No server. No data ever leaves your browser.
 
 ## The problem
 
-The EU AI Act (Regulation 2024/1689) is 144 pages long, has a five-tier risk system, and applies phased deadlines through 2027. Most teams building or buying an AI system have no fast way to answer: *"which tier are we in, and what do we actually have to do about it?"*
+AI governance now spans multiple frameworks: the EU AI Act (legally binding, phased deadlines through 2027), ISO/IEC 42001 (the international AI management-system standard), and the NIST AI RMF (the US voluntary risk framework). Most teams have no fast way to check where they stand against any of them, let alone all three.
 
-This tool answers that in four steps, in the browser, with every answer traced back to a specific article.
+This tool gives each framework its own scanner and its own independent score — pick the one you need from the home page or the top nav.
 
 ## How it works
+
+Four top-level pages, one nav bar:
+
+- **Home** — pick a scanner, or read about the EU AI Act's five risk tiers.
+- **EU AI Act Scanner** — the full 4-step wizard: System Profile → Risk Qualifiers → Technical Controls → Results & Report.
+- **ISO/IEC 42001 Scanner** — a standalone checklist against the 13 core clauses of the AI management-system standard. Its own coverage score, independent of the EU AI Act result.
+- **NIST AI RMF Scanner** — a standalone checklist across GOVERN / MAP / MEASURE / MANAGE. Its own coverage score, independent of the other two.
 
 ```mermaid
 flowchart LR
     A["① System Profile\nname · team · purpose"] --> B["② Risk Qualifiers\n14 questions → Arts. 5 / 50 / 51-55 / Annex III"]
     B --> C["③ Technical Controls\n36 requirements, MUST / SHOULD"]
-    C --> D["④ Results & Report\nscore · gaps · HTML export · ISO 42001 tab"]
+    C --> D["④ Results & Report\nEU AI Act score · gaps · HTML export"]
 ```
 
 ## How to use it
 
-1. **Open the app** — click Start Free Scan on the [live site](https://jeevan-0508.github.io/eu-ai-act-scanner), or open the downloaded file directly. No account, no install required.
-2. **Fill in the System Profile** — name your AI system, the team that owns it, its primary domain, and a one-line purpose. This is just for the report header, not classification.
-3. **Answer the 14 Risk Qualifier questions** — each maps to a specific article (Art. 5, Annex III, Art. 50, Arts. 51-55). Unsure why a question matters? Click "Explain why" under it for a plain-English breakdown with real-world examples.
-4. **Check off Technical Controls** — the app already narrowed the checklist to only the requirements that apply to your tier. Tick whatever you already have in place; anything left unchecked becomes a gap.
-5. **Read your Results** — risk tier, compliance score, mandatory-requirement score, and a prioritized action list (critical gaps first). High-Risk and GPAI tiers also get ISO/IEC 42001 and NIST AI RMF crosswalk tabs.
-6. **Export the report** — one click downloads a self-contained HTML compliance report you can attach to an email, ticket, or audit file.
-7. **(Optional) Install it as an app** — it's a PWA, so it can run offline once installed (see links below).
+1. **Open the app** — go to the [live site](https://jeevan-0508.github.io/eu-ai-act-scanner) and pick a scanner from Home or the top nav. No account, no install required.
+2. **EU AI Act path** — fill in the System Profile, answer the 14 Risk Qualifier questions (each maps to a specific article — click "Explain why" for a plain-English breakdown), check off the Technical Controls that already apply to your tier, then read your Results: risk tier, compliance score, mandatory-requirement score, and a prioritized action list.
+3. **ISO/IEC 42001 or NIST AI RMF path** — go straight to that tab, check off what you already have in place, and get a coverage score for that framework alone — no wizard, no dependency on your EU AI Act classification.
+4. **Export the report** — from the EU AI Act Results page, one click downloads a self-contained HTML compliance report you can attach to an email, ticket, or audit file.
+5. **(Optional) Install it as an app** — it's a PWA, so it can run offline once installed (see links below).
 
 ## Get the app
 
@@ -78,11 +83,10 @@ flowchart TD
 
 | | |
 |---|---|
-| **14 risk-qualifier questions** | Each mapped to a specific article, with an "explain why" panel in plain English + Amazon/logistics-style examples |
-| **36 compliance requirements** | Across all 5 tiers, tagged **MUST** (legally mandatory) or **SHOULD** (best practice) |
-| **Compliance Timeline** | Real phased rollout Aug 2024 → Aug 2027, flags deadlines already passed |
-| **ISO/IEC 42001:2023 crosswalk** | 13 management-system clauses mapped to AI Act articles, scored separately (High-Risk / GPAI tiers) |
-| **NIST AI RMF 1.0 crosswalk** | 14 subcategories across GOVERN / MAP / MEASURE / MANAGE, mapped to AI Act articles, scored separately (High-Risk / GPAI tiers) |
+| **EU AI Act scanner** | 14 risk-qualifier questions (each mapped to a specific article, with an "explain why" panel) → 36 requirements across 5 tiers, tagged **MUST**/**SHOULD** → compliance score + prioritized gap list |
+| **ISO/IEC 42001 scanner** | Standalone checklist, 13 management-system clauses, its own coverage score — independent of EU AI Act tier |
+| **NIST AI RMF scanner** | Standalone checklist, 14 subcategories across GOVERN / MAP / MEASURE / MANAGE, its own coverage score — independent of the other two |
+| **Compliance Timeline** | Real phased EU AI Act rollout Aug 2024 → Aug 2027, flags deadlines already passed |
 | **Exportable HTML report** | Generated entirely client-side, no server round-trip |
 | **PWA** | Installable, works offline, network-first service worker so updates are never stuck behind a stale cache |
 | **Regulation-currency tracking** | "Last verified" badge + one-click check against the live EUR-Lex text — see [CHANGELOG.md](CHANGELOG.md) |
