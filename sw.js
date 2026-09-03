@@ -1,4 +1,4 @@
-const CACHE = 'eu-ai-scanner-v3';
+const CACHE = 'eu-ai-scanner-v4';
 const ASSETS = ['./','./index.html','./manifest.json'];
 
 self.addEventListener('install', e => {

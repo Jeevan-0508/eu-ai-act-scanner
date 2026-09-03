@@ -799,11 +799,8 @@ function togISO(el){
   if(!S.iso)S.iso={};
   const id=el.dataset.iid;
   S.iso[id]=!S.iso[id];
-  const chk=S.iso[id];
-  el.classList.toggle('checked',chk);
-  el.style.borderLeftColor=chk?'var(--success)':'';
-  const box=el.querySelector('.check-box');
-  if(box){box.innerHTML=chk?'&#10003;':'';if(chk){box.style.background='var(--success)';box.style.borderColor='var(--success)';box.style.color='#fff';}else{box.style.background='';box.style.borderColor='var(--border)';box.style.color='';}}
+  const panel=document.querySelector('[data-panel="iso"]');
+  if(panel)panel.innerHTML=renderISO(S.tier);
 }
 
 function renderNIST(tier){
@@ -848,11 +845,8 @@ function togNIST(el){
   if(!S.nist)S.nist={};
   const id=el.dataset.nid;
   S.nist[id]=!S.nist[id];
-  const chk=S.nist[id];
-  el.classList.toggle('checked',chk);
-  el.style.borderLeftColor=chk?'var(--success)':'';
-  const box=el.querySelector('.check-box');
-  if(box){box.innerHTML=chk?'&#10003;':'';if(chk){box.style.background='var(--success)';box.style.borderColor='var(--success)';box.style.color='#fff';}else{box.style.background='';box.style.borderColor='var(--border)';box.style.color='';}}
+  const panel=document.querySelector('[data-panel="nist"]');
+  if(panel)panel.innerHTML=renderNIST(S.tier);
 }
 
 function switchTab(tab){
