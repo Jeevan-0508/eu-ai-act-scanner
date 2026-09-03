@@ -14,6 +14,13 @@ No signup. No server. No data ever leaves your browser.
 
 ---
 
+## Preview
+
+<p align="center">
+  <img src="screenshots/landing.png" alt="EU AI Act Scanner — landing page" width="800"><br><br>
+  <img src="screenshots/wizard.png" alt="EU AI Act Scanner — System Profile wizard step" width="800">
+</p>
+
 ## The problem
 
 The EU AI Act (Regulation 2024/1689) is 144 pages long, has a five-tier risk system, and applies phased deadlines through 2027. Most teams building or buying an AI system have no fast way to answer: *"which tier are we in, and what do we actually have to do about it?"*
