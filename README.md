@@ -36,6 +36,27 @@ flowchart LR
     C --> D["④ Results & Report\nscore · gaps · HTML export · ISO 42001 tab"]
 ```
 
+## How to use it
+
+1. **Open the app** — click Start Free Scan on the [live site](https://jeevan-0508.github.io/eu-ai-act-scanner), or open the downloaded file directly. No account, no install required.
+2. **Fill in the System Profile** — name your AI system, the team that owns it, its primary domain, and a one-line purpose. This is just for the report header, not classification.
+3. **Answer the 14 Risk Qualifier questions** — each maps to a specific article (Art. 5, Annex III, Art. 50, Arts. 51-55). Unsure why a question matters? Click "Explain why" under it for a plain-English breakdown with real-world examples.
+4. **Check off Technical Controls** — the app already narrowed the checklist to only the requirements that apply to your tier. Tick whatever you already have in place; anything left unchecked becomes a gap.
+5. **Read your Results** — risk tier, compliance score, mandatory-requirement score, and a prioritized action list (critical gaps first). High-Risk and GPAI tiers also get an ISO/IEC 42001 crosswalk tab.
+6. **Export the report** — one click downloads a self-contained HTML compliance report you can attach to an email, ticket, or audit file.
+7. **(Optional) Install it as an app** — it's a PWA, so it can run offline once installed (see links below).
+
+## Get the app
+
+<div align="center">
+
+| 🌐 Live App | 💾 Download | 🖥️ Install (Desktop) | 📱 Install (Mobile) |
+|:---:|:---:|:---:|:---:|
+| [**OPEN IN BROWSER**](https://jeevan-0508.github.io/eu-ai-act-scanner) | [**DOWNLOAD index.html**](https://github.com/Jeevan-0508/eu-ai-act-scanner/raw/main/index.html) | Chrome/Edge → install icon (⊕) in the address bar on the live site | Safari/Chrome → Share/Menu → **Add to Home Screen** |
+| Runs instantly, always latest version | Single self-contained file — double-click to run fully offline, no server needed | Runs in its own window, works offline after first load | Full-screen app icon, works offline after first load |
+
+</div>
+
 ## Classification logic
 
 ```mermaid
