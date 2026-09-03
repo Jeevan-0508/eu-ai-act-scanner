@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🇪🇺 EU AI Act Compliance Scanner
+# EU AI Act Compliance Scanner
 
 **Classify any AI system against Regulation (EU) 2024/1689 in under 10 minutes.**
 No signup. No server. No data ever leaves your browser.
