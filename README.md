@@ -41,7 +41,7 @@ Four top-level pages, one nav bar:
 ```mermaid
 flowchart LR
     A["① System Profile\nname · team · purpose"] --> B["② Risk Qualifiers\n14 questions → Arts. 5 / 50 / 51-55 / Annex III"]
-    B --> C["③ Technical Controls\n36 requirements, MUST / SHOULD"]
+    B --> C["③ Technical Controls\n22 requirements, MUST / SHOULD"]
     C --> D["④ Results & Report\nEU AI Act score · gaps · HTML export"]
 ```
 
@@ -83,9 +83,9 @@ flowchart TD
 
 | | |
 |---|---|
-| **EU AI Act scanner** | 14 risk-qualifier questions (each mapped to a specific article, with an "explain why" panel) → 36 requirements across 5 tiers, tagged **MUST**/**SHOULD** → compliance score + prioritized gap list |
+| **EU AI Act scanner** | 14 risk-qualifier questions (each mapped to a specific article, with an "explain why" panel) → 22 requirements across 5 tiers, tagged **MUST**/**SHOULD** → compliance score + prioritized gap list |
 | **ISO/IEC 42001 scanner** | Standalone checklist, 13 management-system clauses, its own coverage score — independent of EU AI Act tier |
-| **NIST AI RMF scanner** | Standalone checklist, 14 subcategories across GOVERN / MAP / MEASURE / MANAGE, its own coverage score — independent of the other two |
+| **NIST AI RMF scanner** | Standalone checklist, 15 subcategories across GOVERN / MAP / MEASURE / MANAGE, its own coverage score — independent of the other two |
 | **Compliance Timeline** | Real phased EU AI Act rollout Aug 2024 → Aug 2027, flags deadlines already passed |
 | **Exportable HTML report** | Generated entirely client-side, no server round-trip |
 | **PWA** | Installable, works offline, network-first service worker so updates are never stuck behind a stale cache |
