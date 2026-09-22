@@ -105,6 +105,16 @@ This is a static tool — its compliance data does not update itself. See [CHANG
 
 **Disclaimer:** For internal compliance self-assessment only. Not legal advice.
 
+## Related Projects
+
+This is one of several regulation/governance tools; each has a distinct scope:
+
+- [EU AI Act Scanner](https://github.com/Jeevan-0508/eu-ai-act-scanner) - EU AI Act / ISO 42001 / NIST AI RMF, regulation-specific
+- [GDPR Compliance Scanner](https://github.com/Jeevan-0508/gdpr-compliance-scanner) - GDPR, regulation-specific, spreadsheet/export focused
+- [DORA Compliance Scanner](https://github.com/Jeevan-0508/dora-compliance-scanner) - EU DORA, regulation-specific
+- [AI Governance Control Room](https://github.com/Jeevan-0508/ai-governance-control-room) - cross-framework governance operating system (systems, controls, evidence across all of the above)
+- [POLICY//AUDIT](https://github.com/Jeevan-0508/policy-audit) - evidence/document auditing engine (feeds findings into a control room, doesn't replace one)
+
 ## License
 
 All rights reserved — see [LICENSE](LICENSE). No permission is granted to copy, modify, redistribute, or reuse this code without written permission from the author.
