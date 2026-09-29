@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Compliance Scanner — EU AI Act, ISO 42001, NIST AI RMF</title>
-<meta name="description" content="Free tool to scan any AI system for EU AI Act (Regulation 2024/1689) compliance. Risk classification, gap analysis, exportable reports.">
+<meta name="description" content="Free EU AI Act checklist for preliminary self-assessment. Review requirement coverage and open items; this tool does not determine legal compliance.">
 <meta name="theme-color" content="#6366f1">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
@@ -391,7 +391,7 @@ details.q-why summary:hover{background:rgba(99,102,241,.15)}
         <div class="how-step">
           <div class="step-circle">&#128202;</div>
           <div class="step-title">4. Report</div>
-          <div class="step-desc">Get a compliance score, gap analysis, and downloadable HTML report.</div>
+          <div class="step-desc">Review preliminary indicators, self-assessed checklist coverage, and open items.</div>
         </div>
       </div>
     </div>
@@ -472,7 +472,7 @@ details.q-why summary:hover{background:rgba(99,102,241,.15)}
 const S={step:1,profile:{name:'',team:'',purpose:'',domain:'',description:''},qualifiers:{},controls:{},tier:null};
 
 /* ── Regulation currency tracking ── */
-var REG_LAST_REVIEWED='2026-09-02';
+var REG_LAST_REVIEWED='2026-09-29';
 var REG_SOURCE_URL='https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689';
 function getVerifiedDate(){return localStorage.getItem('euai_verified')||REG_LAST_REVIEWED;}
 function fmtDate(iso){var d=new Date(iso+'T00:00:00');return d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});}
@@ -637,12 +637,13 @@ const RQ={
 
 
 const TIMELINE=[
-  {date:'Aug 2024',label:'Act Entered Into Force',desc:'Regulation (EU) 2024/1689 published in the Official Journal and entered into force across all EU member states.',tiers:['all'],status:'done'},
-  {date:'Feb 2025',label:'Prohibited AI Enforceable',desc:'Chapter II (Art. 5 prohibited practices) and Art. 4 (AI literacy obligations) became fully enforceable. Systems matching prohibited criteria must have been withdrawn.',tiers:['unacceptable'],status:'done'},
-  {date:'Aug 2025',label:'GPAI + Governance Live',desc:'Chapter V (GPAI model obligations, Arts. 51-55), Chapter VII (governance, EU AI Office), and Chapter XII (penalties) fully operational. GPAI providers must have documentation and copyright policies in place.',tiers:['gpai'],status:'done'},
-  {date:'Aug 2026',label:'High-Risk Annex III Deadline',desc:'Full compliance required for all high-risk AI systems listed in Annex III. Conformity assessments, EU database registration, human oversight measures, deployer fundamental rights impact assessments — all now enforceable. THIS DEADLINE HAS PASSED.',tiers:['high'],status:'overdue'},
-  {date:'Now',label:'You Are Here',desc:'September 2026. High-risk Annex III systems are past their compliance deadline. If your system is high-risk and not yet compliant, this is an active regulatory exposure.',tiers:['high','gpai','limited','unacceptable'],status:'now'},
-  {date:'Aug 2027',label:'High-Risk Annex I Systems',desc:'High-risk AI systems embedded in products covered by existing EU product safety legislation (Annex I — machinery, medical devices, vehicles, aviation) must comply.',tiers:['high'],status:'upcoming'}
+  {date:'Aug 2024',dateISO:'2024-08-01',label:'Act Entered Into Force',desc:'Regulation (EU) 2024/1689 entered into force 20 days after publication in the Official Journal.',tiers:['all']},
+  {date:'Feb 2025',dateISO:'2025-02-02',label:'AI Literacy and Most Prohibitions Apply',desc:'AI literacy obligations and most prohibited-practice rules began applying. The consolidated Article 113 lists specific Article 5 exceptions that apply from 2 December 2026.',tiers:['unacceptable']},
+  {date:'Aug 2025',dateISO:'2025-08-02',label:'GPAI + Governance Apply',desc:'GPAI model obligations and specified governance provisions began applying. Verify provider role and any transition provisions against the consolidated regulation.',tiers:['gpai']},
+  {date:'Aug 2026',dateISO:'2026-08-02',label:'General Application Date',desc:'The general application date has passed. Specific provisions have different dates; high-risk obligations have later dates under the consolidated Article 113.',tiers:['all']},
+  {date:'Dec 2026',dateISO:'2026-12-02',label:'Specific Article 5 Provisions',desc:'The consolidated Article 113 sets 2 December 2026 for the specified Article 5 points and paragraphs. Check the current consolidated regulation for the exact scope.',tiers:['unacceptable']},
+  {date:'Dec 2027',dateISO:'2027-12-02',label:'High-Risk Annex III Systems',desc:'The Commission lists 2 December 2027 for rules covering high-risk AI systems classified under Article 6(2) and Annex III. This date is subject to the current consolidated Regulation and any later amendments.',tiers:['high']},
+  {date:'Aug 2028',dateISO:'2028-08-02',label:'High-Risk Annex I Product Systems',desc:'The Commission lists 2 August 2028 for rules covering high-risk AI systems embedded in regulated products under Article 6(1) and Annex I. This date is subject to the current consolidated Regulation and any later amendments.',tiers:['high']}
 ];
 
 const ISO42001=[
@@ -790,7 +791,7 @@ function step3(){
   +'<span class="risk-badge '+INFO.cls+'" style="margin-bottom:14px">'+INFO.label+'</span>'
   +'<p style="font-size:13px;color:var(--muted);line-height:1.6;margin-top:14px">'+INFO.note+'</p></div>'
   +'<div class="card"><div class="card-title">Technical Controls Checklist</div>'
-  +'<div class="card-sub">Check each requirement currently implemented in your system. This generates your compliance score and identifies gaps.</div>'
+  +'<div class="card-sub">Mark the checklist items you believe are in place. The resulting coverage is self-reported and does not determine legal compliance.</div>'
   +reqs.map(r=>{
     const chk=S.controls[r.id]||false;
     return '<div class="checklist-item'+(chk?' checked':'')+'" id="ci_'+r.id+'" data-rid="'+r.id+'" onclick="togItem(this)">'
@@ -815,7 +816,8 @@ function renderTimeline(tier){
   const relevant=TIMELINE.filter(t=>t.tiers.includes('all')||t.tiers.includes(tier));
   let html='<div class="timeline-wrap">';
   relevant.forEach(t=>{
-    const dotCls=t.status==='done'?'done':t.status==='overdue'?'overdue':t.status==='now'?'now':'upcoming';
+    const status=new Date(t.dateISO+'T00:00:00')<=new Date()?'done':'upcoming';
+    const dotCls=status==='done'?'done':'upcoming';
     const lblCls=dotCls;
     html+='<div class="timeline-row"><div class="tl-item">'
     +'<div class="tl-dot '+dotCls+'"></div>'
@@ -823,9 +825,7 @@ function renderTimeline(tier){
     +'<div class="tl-date">'+t.date+'</div>'
     +'<div class="tl-label '+lblCls+'">'+t.label+'</div>'
     +'<div class="tl-desc">'+t.desc+'</div>';
-    if(t.status==='done') html+='<div class="tl-tag done">&#10003; In force</div>';
-    else if(t.status==='overdue') html+='<div class="tl-tag overdue">&#9888; Deadline passed</div>';
-    else if(t.status==='now') html+='<div class="tl-tag now">&#9654; You are here &mdash; Sep 2026</div>';
+    if(status==='done') html+='<div class="tl-tag done">&#10003; Date passed</div>';
     else html+='<div class="tl-tag upcoming">&#9679; Upcoming</div>';
     html+='</div></div></div>';
   });
@@ -937,11 +937,11 @@ function step4(){
   const missing=reqs.filter(r=>!S.controls[r.id]&&r.m==='must');
   const gaps=reqs.filter(r=>!S.controls[r.id]);
   const TM={
-    unacceptable:{icon:'&#128683;',cls:'unacceptable',label:'PROHIBITED',col:'#ef4444',title:'Prohibited AI Practice Detected',sub:'This system meets criteria for a prohibited practice under Article 5. It must not be deployed in the EU.'},
-    high:{icon:'&#9888;',cls:'high',label:'HIGH RISK',col:'#f59e0b',title:'High-Risk AI System',sub:'Classified under Annex III. Full compliance obligations apply and the August 2026 deadline has now passed.'},
-    limited:{icon:'&#9889;',cls:'limited',label:'LIMITED RISK',col:'#3b82f6',title:'Limited Risk AI System',sub:'Transparency obligations apply under Article 50. Users must be informed about AI interaction and synthetic content.'},
-    gpai:{icon:'&#129302;',cls:'gpai',label:'GPAI MODEL',col:'#818cf8',title:'General-Purpose AI Model',sub:'GPAI obligations under Articles 51-55 apply. The August 2025 deadline has passed.'},
-    minimal:{icon:'&#10003;',cls:'minimal',label:'MINIMAL RISK',col:'#22c55e',title:'Minimal Risk AI System',sub:'No mandatory obligations under the EU AI Act. Voluntary codes of conduct are encouraged.'}
+    unacceptable:{icon:'&#128683;',cls:'unacceptable',label:'POSSIBLE PROHIBITED-PRACTICE INDICATION',col:'#ef4444',title:'Possible Article 5 Trigger',sub:'Your answers indicate a possible Article 5 issue. This questionnaire is not a legal determination; verify the exact practice, exceptions, and current consolidated text before making a deployment decision.'},
+    high:{icon:'&#9888;',cls:'high',label:'PRELIMINARY HIGH-RISK INDICATION',col:'#f59e0b',title:'Possible High-Risk AI System',sub:'This questionnaire indicates a possible Annex III classification; it is not a legal determination. The Commission currently lists 2 December 2027 for Annex III rules and 2 August 2028 for Annex I product rules. Verify the applicable category and current consolidated text.'},
+    limited:{icon:'&#9889;',cls:'limited',label:'POSSIBLE TRANSPARENCY OBLIGATION',col:'#3b82f6',title:'Possible Article 50 Obligation',sub:'Your answers indicate that transparency requirements may apply. Verify the system role, content, exceptions, and current consolidated text.'},
+    gpai:{icon:'&#129302;',cls:'gpai',label:'POSSIBLE GPAI MODEL',col:'#818cf8',title:'Possible General-Purpose AI Model',sub:'This questionnaire indicates a possible GPAI model. Verify provider/deployer role, applicable transition provisions, and current consolidated Articles 51-55.'},
+    minimal:{icon:'&#10003;',cls:'minimal',label:'NO TRIGGER FOUND BY THIS QUESTIONNAIRE',col:'#22c55e',title:'No Listed Trigger Found',sub:'The answers did not match a trigger implemented in this checklist. This does not establish that the system has no obligations; the questionnaire may be incomplete or outdated.'}
   }[tier];
   const sc=score>=80?'#22c55e':score>=50?'#f59e0b':'#ef4444';
   const R=54,C=+(2*Math.PI*R).toFixed(1),D=+(C-score/100*C).toFixed(1);
@@ -950,7 +950,7 @@ function step4(){
   html+='<div style="margin-bottom:8px"><span class="risk-badge '+TM.cls+'">'+TM.label+'</span></div>';
   html+='<div class="result-title">'+TM.title+'</div><div class="result-sub">'+TM.sub+'</div></div></div>';
   html+='<div class="metrics-row">';
-  html+='<div class="metric-card"><div class="metric-value" style="color:'+sc+'">'+score+'%</div><div class="metric-label">EU AI Act Compliance</div></div>';
+  html+='<div class="metric-card"><div class="metric-value" style="color:'+sc+'">'+score+'%</div><div class="metric-label">Self-Assessed Requirement Coverage</div></div>';
   html+='<div class="metric-card"><div class="metric-value" style="color:'+(mScore>=100?'#22c55e':'#ef4444')+'">'+mScore+'%</div><div class="metric-label">Mandatory Requirements</div></div>';
   html+='<div class="metric-card"><div class="metric-value" style="color:'+(missing.length===0?'#22c55e':'#ef4444')+'">'+missing.length+'</div><div class="metric-label">Critical Gaps</div></div>';
   html+='</div>';
@@ -963,7 +963,7 @@ function step4(){
 
   // Results card
   html+='<div class="card">';
-  html+='<div class="section-header">&#128203; '+esc(S.profile.name||'AI System')+' &mdash; Compliance Overview</div>';
+  html+='<div class="section-header">&#128203; '+esc(S.profile.name||'AI System')+' &mdash; Self-Assessment Overview</div>';
   html+='<div style="display:flex;align-items:center;gap:24px;margin-bottom:24px;padding:20px;background:var(--surface2);border-radius:10px">';
   html+='<div style="position:relative;width:130px;height:130px;flex-shrink:0">';
   html+='<svg width="130" height="130" viewBox="0 0 130 130" style="transform:rotate(-90deg)">';
@@ -974,8 +974,9 @@ function step4(){
   html+='<div style="font-size:12px;color:var(--muted)">/100</div></div></div>';
   html+='<div style="flex:1"><div style="font-size:15px;font-weight:700;margin-bottom:4px">'+esc(S.profile.name||'AI System')+'</div>';
   html+='<div style="font-size:12px;color:var(--muted);margin-bottom:12px">'+esc(S.profile.team||'')+' &middot; '+esc(S.profile.domain||'')+'</div>';
-  html+='<div style="font-size:13px;line-height:2.1">Risk Tier: <strong style="color:'+TM.col+'">'+TM.label+'</strong><br>Requirements met: <strong>'+chk.length+' / '+total+'</strong><br>Mandatory gaps: <strong style="color:'+(missing.length>0?'#ef4444':'#22c55e')+'">'+missing.length+'</strong><br>Assessed: <strong>'+new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})+'</strong><br>Regulation data verified: <strong>'+fmtDate(getVerifiedDate())+'</strong></div></div></div>';
-  html+='<div class="section-header">&#10004; Requirements Status</div>';
+  html+='<div style="font-size:13px;line-height:2.1">Questionnaire indication: <strong style="color:'+TM.col+'">'+TM.label+'</strong><br>Checklist items marked met: <strong>'+chk.length+' / '+total+'</strong><br>Mandatory items left open: <strong style="color:'+(missing.length>0?'#ef4444':'#22c55e')+'">'+missing.length+'</strong><br>Assessed: <strong>'+new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})+'</strong><br>Regulation data last reviewed: <strong>'+fmtDate(getVerifiedDate())+'</strong></div></div></div>';
+  html+='<div class="section-header">&#10004; Checklist Status</div>';
+  html+='<p class="card-sub">This result is based on your answers and checklist selections. It is not a legal classification or compliance determination. Verify scope and obligations against the current consolidated Regulation and qualified counsel.</p>';
   reqs.forEach(r=>{
     const done=S.controls[r.id];
     html+='<div style="display:flex;align-items:flex-start;gap:12px;padding:12px;background:var(--surface2);border-radius:8px;margin-bottom:7px;border-left:3px solid '+(done?'#22c55e':'#ef4444')+'">';
@@ -1015,10 +1016,10 @@ function exportRpt(){
   const missing=reqs.filter(r=>!S.controls[r.id]&&r.m==='must');
   const gaps=reqs.filter(r=>!S.controls[r.id]);
   const TC={unacceptable:'#ef4444',high:'#f59e0b',limited:'#3b82f6',gpai:'#818cf8',minimal:'#22c55e'};
-  const TL={unacceptable:'PROHIBITED',high:'HIGH RISK',limited:'LIMITED RISK',gpai:'GPAI MODEL',minimal:'MINIMAL RISK'};
+  const TL={unacceptable:'POSSIBLE ARTICLE 5 TRIGGER',high:'POSSIBLE HIGH-RISK INDICATION',limited:'POSSIBLE ARTICLE 50 INDICATION',gpai:'POSSIBLE GPAI MODEL',minimal:'NO CHECKLIST TRIGGER FOUND'};
   const sc=score>=80?'#22c55e':score>=50?'#f59e0b':'#ef4444';
   const dt=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});
-  let doc='<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>EU AI Act Compliance Report &mdash; '+esc(S.profile.name)+'</title><style>';
+  let doc='<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>EU AI Act Self-Assessment &mdash; '+esc(S.profile.name)+'</title><style>';
   doc+='body{font-family:Arial,sans-serif;background:#f8fafc;color:#1e293b;margin:0;padding:40px;max-width:900px;margin:0 auto;padding:40px}';
   doc+='.hdr{background:linear-gradient(135deg,#1e3a8a,#1e40af);color:#fff;padding:36px 40px;border-radius:12px;margin-bottom:28px}';
   doc+='.hdr h1{font-size:26px;margin:0 0 6px;font-weight:800}.hdr p{font-size:14px;opacity:.8;margin:0}';
@@ -1036,13 +1037,13 @@ function exportRpt(){
   doc+='.cit{background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:20px 24px;margin-top:32px;font-size:12px;color:#1e40af;line-height:1.7}';
   doc+='.cit a{color:#1d4ed8}.ft{text-align:center;font-size:12px;color:#94a3b8;margin-top:32px;padding-top:20px;border-top:1px solid #e2e8f0}';
   doc+='@media print{body{padding:20px}.hdr{break-after:avoid}}</style></head><body>';
-  doc+='<div class="hdr"><h1>EU AI Act Compliance Report</h1><p>Regulation (EU) 2024/1689 &mdash; Risk Classification &amp; Gap Analysis</p>';
+  doc+='<div class="hdr"><h1>EU AI Act Checklist Self-Assessment</h1><p>Regulation (EU) 2024/1689 &mdash; Preliminary questionnaire and requirement coverage</p>';
   doc+='<div class="meta"><div class="mi"><strong>System:</strong> '+esc(S.profile.name)+'</div>';
   doc+='<div class="mi"><strong>Team:</strong> '+esc(S.profile.team)+'</div>';
   doc+='<div class="mi"><strong>Domain:</strong> '+esc(S.profile.domain)+'</div>';
   doc+='<div class="mi"><strong>Assessed:</strong> '+dt+'</div></div></div>';
   doc+='<div class="tb">'+TL[tier]+'</div>';
-  doc+='<div class="sc-box"><div><div class="sn">'+score+'%</div><div style="font-size:14px;color:#64748b;margin-top:4px">Overall Compliance Score</div></div>';
+  doc+='<div class="sc-box"><div><div class="sn">'+score+'%</div><div style="font-size:14px;color:#64748b;margin-top:4px">Self-Assessed Checklist Coverage</div></div>';
   doc+='<div style="font-size:14px;line-height:2.2"><strong>Requirements met:</strong> '+chk.length+' / '+reqs.length+'<br>';
   doc+='<strong>Mandatory gaps:</strong> <span style="color:#ef4444;font-weight:700">'+missing.length+'</span><br>';
   doc+='<strong>Purpose:</strong> '+esc(S.profile.purpose)+'</div></div>';
@@ -1063,11 +1064,11 @@ function exportRpt(){
       doc+='<div><div class="rt">CRITICAL: '+r.t+'</div><div class="rd">'+r.d+'</div><div class="ra">'+r.a+'</div></div></div>';
     });
   }else{
-    doc+='<p style="color:#22c55e;font-weight:700;padding:16px 20px;background:#f0fdf4;border-radius:8px;margin-top:16px">&#10003; All mandatory requirements have been met.</p>';
+    doc+='<p style="color:#22c55e;font-weight:700;padding:16px 20px;background:#f0fdf4;border-radius:8px;margin-top:16px">&#10003; All mandatory checklist items were marked as met by the assessor. This does not independently establish legal compliance.</p>';
   }
-  doc+='<div class="cit"><strong>Regulatory basis:</strong> This report is based on <strong>Regulation (EU) 2024/1689</strong> of the European Parliament and of the Council of 13 June 2024 (Artificial Intelligence Act), Official Journal of the European Union L 2024/1689, 12 July 2024. ';
+  doc+='<div class="cit"><strong>Regulatory basis:</strong> Check applicable obligations against the current consolidated <strong>Regulation (EU) 2024/1689</strong> and official Commission guidance. This checklist is a preliminary self-assessment and does not establish a system\'s legal classification or compliance. ';
   doc+='Full text: <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401689">eur-lex.europa.eu</a></div>';
-  doc+='<div class="ft">Generated by EU AI Act Compliance Scanner &middot; Regulation (EU) 2024/1689 &middot; '+dt+'<br>For internal self-assessment purposes only. Does not constitute legal advice. Consult qualified legal counsel for binding compliance decisions.</div>';
+  doc+='<div class="ft">Generated by EU AI Act Checklist &middot; Regulation (EU) 2024/1689 &middot; '+dt+'<br>For preliminary self-assessment only. It does not constitute legal advice or establish compliance. Consult qualified legal counsel for binding compliance decisions.</div>';
   doc+='</body></html>';
   const a=document.createElement('a');
   a.href=URL.createObjectURL(new Blob([doc],{type:'text/html'}));

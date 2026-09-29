@@ -16,6 +16,11 @@ When the regulation actually changes in a way that affects this tool (new implem
 
 ## History
 
+### 2026-09-29
+- Updated the AI Act timeline against the Commission's current timeline and consolidated Regulation (EU) 2024/1689: Annex III rules are listed from 2 December 2027 and Annex I product rules from 2 August 2028; added the general application date and the specific December 2026 Article 5 provisions.
+- Changed the EU Act result language to preliminary indication and self-assessed checklist coverage. The questionnaire and marked checklist items do not establish legal classification or compliance.
+- Source checked: [European Commission AI Act timeline](https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai), [consolidated Regulation on EUR-Lex](https://eur-lex.europa.eu/eli/reg/2024/1689/2026-07-27/eng).
+
 ### 2026-09-02
 - Added regulation-currency tracking: "last verified" badge (footer + results page) and a manual "Check for regulation updates" flow that opens the EUR-Lex source text.
 - No content changes to the underlying compliance data this cycle — regulation confirmed current as of this date.
