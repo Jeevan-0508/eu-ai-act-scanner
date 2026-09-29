@@ -25,7 +25,7 @@ No signup. No server. No data ever leaves your browser.
 
 ## The problem
 
-AI governance now spans multiple frameworks: the EU AI Act (legally binding, phased deadlines through 2027), ISO/IEC 42001 (the international AI management-system standard), and the NIST AI RMF (the US voluntary risk framework). Most teams have no fast way to check where they stand against any of them, let alone all three.
+AI governance now spans multiple frameworks: the EU AI Act (legally binding, with phased application dates through 2028), ISO/IEC 42001 (the international AI management-system standard), and the NIST AI RMF (the US voluntary risk framework). Most teams have no fast way to check where they stand against any of them, let alone all three.
 
 This tool gives each framework its own scanner and its own independent score — pick the one you need from the home page or the top nav.
 
@@ -48,9 +48,9 @@ flowchart LR
 ## How to use it
 
 1. **Open the app** — go to the [live site](https://jeevan-0508.github.io/eu-ai-act-scanner) and pick a scanner from Home or the top nav. No account, no install required.
-2. **EU AI Act path** — fill in the System Profile, answer the 14 Risk Qualifier questions (each maps to a specific article — click "Explain why" for a plain-English breakdown), check off the Technical Controls that already apply to your tier, then read your Results: risk tier, compliance score, mandatory-requirement score, and a prioritized action list.
+2. **EU AI Act path** — fill in the System Profile, answer the 14 Risk Qualifier questions (each maps to a specific article — click "Explain why" for a plain-English breakdown), check off the Technical Controls you believe are in place, then review a preliminary indication, self-assessed checklist coverage, open items, and a prioritized action list. The questionnaire does not make a legal classification or compliance determination.
 3. **ISO/IEC 42001 or NIST AI RMF path** — go straight to that tab, check off what you already have in place, and get a coverage score for that framework alone — no wizard, no dependency on your EU AI Act classification.
-4. **Export the report** — from the EU AI Act Results page, one click downloads a self-contained HTML compliance report you can attach to an email, ticket, or audit file.
+4. **Export the report** — from the EU AI Act Results page, one click downloads a self-contained HTML checklist self-assessment you can attach to an email, ticket, or audit file.
 5. **(Optional) Install it as an app** — it's a PWA, so it can run offline once installed (see links below).
 
 ## Get the app
@@ -83,10 +83,10 @@ flowchart TD
 
 | | |
 |---|---|
-| **EU AI Act scanner** | 14 risk-qualifier questions (each mapped to a specific article, with an "explain why" panel) → 22 requirements across 5 tiers, tagged **MUST**/**SHOULD** → compliance score + prioritized gap list |
+| **EU AI Act checklist** | 14 preliminary risk-qualifier questions and 22 checklist items across 5 tiers → self-assessed coverage and open-item list; not a legal determination |
 | **ISO/IEC 42001 scanner** | Standalone checklist, 13 management-system clauses, its own coverage score — independent of EU AI Act tier |
 | **NIST AI RMF scanner** | Standalone checklist, 15 subcategories across GOVERN / MAP / MEASURE / MANAGE, its own coverage score — independent of the other two |
-| **Compliance Timeline** | Real phased EU AI Act rollout Aug 2024 → Aug 2027, flags deadlines already passed |
+| **Compliance Timeline** | Phased dates checked against the current Commission timeline on 29 Sep 2026; Annex III: 2 Dec 2027, Annex I: 2 Aug 2028; see official links in the app |
 | **Exportable HTML report** | Generated entirely client-side, no server round-trip |
 | **PWA** | Installable, works offline, network-first service worker so updates are never stuck behind a stale cache |
 | **Regulation-currency tracking** | "Last verified" badge + one-click check against the live EUR-Lex text — see [CHANGELOG.md](CHANGELOG.md) |
