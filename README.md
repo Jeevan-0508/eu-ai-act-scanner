@@ -101,7 +101,10 @@ Single `index.html`. Vanilla JS, zero dependencies, zero build step. `manifest.j
 
 Full text: [eur-lex.europa.eu](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401689)
 
-This is a static tool — its compliance data does not update itself. See [CHANGELOG.md](CHANGELOG.md) for how currency is tracked.
+This is a static tool — its compliance rules do not rewrite themselves. A weekly GitHub Action now
+checks the cited official EUR-Lex and European Commission sources, stores normalized hashes and
+retrieval provenance under `data/`, and marks changed material `REVIEW_REQUIRED`; it never silently
+changes compliance logic. See [CHANGELOG.md](CHANGELOG.md) for the manual currency workflow.
 
 **Disclaimer:** For internal compliance self-assessment only. Not legal advice.
 

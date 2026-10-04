@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "checked_at": "2026-10-04T07:44:33.708052+00:00",
+  "source_of_truth": "official EU sources only; monitoring does not change compliance logic",
+  "sources": [
+    {
+      "id": "eu-ai-act-consolidated",
+      "kind": "LEGAL_TEXT",
+      "title": "Regulation (EU) 2024/1689 \u2014 Artificial Intelligence Act",
+      "url": "https://publications.europa.eu/resource/celex/32024R1689",
+      "http_status": 200,
+      "final_url": "http://publications.europa.eu/resource/cellar/dc8116a1-3fe6-11ef-865a-01aa75ed71a1/rdf/object/full",
+      "bytes": 4003380,
+      "content_hash": "19aa323a27e70039f5838cc5662e7b11614c481e84333130c414e9842a31222a",
+      "retrieved_at": "2026-10-04T07:44:33.708052+00:00",
+      "review_status": "REVIEW_REQUIRED"
+    },
+    {
+      "id": "eu-ai-act-commission-framework",
+      "kind": "IMPLEMENTATION_INFORMATION",
+      "title": "European Commission \u2014 Regulatory framework for AI",
+      "url": "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai",
+      "http_status": 200,
+      "final_url": "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai",
+      "bytes": 92063,
+      "content_hash": "83b1db639b3a0d251c1a33b33fbbf1c97e8f820039eadcc10c0881233f9d7459",
+      "retrieved_at": "2026-10-04T07:44:33.708052+00:00",
+      "review_status": "REVIEW_REQUIRED"
+    }
+  ]
+}
