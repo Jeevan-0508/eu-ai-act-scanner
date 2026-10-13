@@ -14,6 +14,8 @@ No signup. No server. No data ever leaves your browser.
 
 </div>
 
+<p align="center"><a href="docs/getting-started.md">Getting started</a> · <a href="docs/quality-review.md">Quality review</a></p>
+
 ---
 
 ## Preview
