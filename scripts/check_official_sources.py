@@ -41,13 +41,14 @@ SOURCES = [
     {
         "id": "eu-ai-act-commission-framework",
         "kind": "IMPLEMENTATION_INFORMATION",
-        "title": "European Commission — Regulatory framework for AI",
-        "url": "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai",
-        # The Commission's edge occasionally returns 403 for the canonical
-        # URL from GitHub-hosted runner IPs. This query variant serves the same
-        # official page and is used only when the canonical URL is unavailable.
+        "title": "EU AI Act Service Desk — implementation timeline",
+        # The Service Desk is an official European Commission information
+        # service and is designed for public, machine-accessible guidance.
+        "url": "https://ai-act-service-desk.ec.europa.eu/en/ai-act/eu-ai-act-implementation-timeline",
+        # Keep a second official Service Desk page available if the primary
+        # page is temporarily unavailable.
         "fallback_urls": [
-            "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai?prefLang=en",
+            "https://ai-act-service-desk.ec.europa.eu/en/ai-act-explorer",
         ],
     },
 ]
