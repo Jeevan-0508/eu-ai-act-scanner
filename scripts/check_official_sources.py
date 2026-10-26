@@ -22,6 +22,11 @@ ROOT = Path(__file__).resolve().parent.parent
 STATE_PATH = ROOT / "data" / "regulatory-monitor.json"
 HISTORY_PATH = ROOT / "data" / "regulatory-changes.jsonl"
 USER_AGENT = "eu-ai-act-scanner-regulatory-monitor/1.0"
+REQUEST_HEADERS = {
+    "User-Agent": USER_AGENT,
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
+}
 
 SOURCES = [
     {
@@ -38,6 +43,12 @@ SOURCES = [
         "kind": "IMPLEMENTATION_INFORMATION",
         "title": "European Commission — Regulatory framework for AI",
         "url": "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai",
+        # The Commission's edge occasionally returns 403 for the canonical
+        # URL from GitHub-hosted runner IPs. This query variant serves the same
+        # official page and is used only when the canonical URL is unavailable.
+        "fallback_urls": [
+            "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai?prefLang=en",
+        ],
     },
 ]
 
@@ -56,20 +67,28 @@ def _normalized_text(blob: bytes) -> str:
 
 
 def fetch_source(source: dict) -> dict:
-    request = urllib.request.Request(source["url"], headers={"User-Agent": USER_AGENT})
-    try:
-        with urllib.request.urlopen(request, timeout=45) as response:
-            blob = response.read()
-            status = response.status
-            final_url = response.geturl()
-    except (urllib.error.URLError, TimeoutError) as exc:
-        raise RuntimeError(f"{source['id']} unavailable: {exc}") from exc
+    errors = []
+    urls = [source["url"], *source.get("fallback_urls", [])]
+    for url in urls:
+        request = urllib.request.Request(url, headers=REQUEST_HEADERS)
+        try:
+            with urllib.request.urlopen(request, timeout=45) as response:
+                blob = response.read()
+                status = response.status
+                final_url = response.geturl()
+            break
+        except urllib.error.HTTPError as exc:
+            errors.append(f"{url}: HTTP {exc.code}")
+        except (urllib.error.URLError, TimeoutError) as exc:
+            errors.append(f"{url}: {exc}")
+    else:
+        raise RuntimeError(f"{source['id']} unavailable: {'; '.join(errors)}")
 
     normalized = _normalized_text(blob)
     if not normalized:
         raise RuntimeError(f"{source['id']} returned no usable text")
     return {
-        **source,
+        **{key: value for key, value in source.items() if key != "fallback_urls"},
         "http_status": status,
         "final_url": final_url,
         "bytes": len(blob),
@@ -137,3 +156,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
