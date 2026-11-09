@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "checked_at": "2026-10-26T23:08:45.556280+00:00",
+  "checked_at": "2026-11-09T17:10:44.247016+00:00",
   "source_of_truth": "official EU sources only; monitoring does not change compliance logic",
   "sources": [
     {
@@ -22,9 +22,9 @@
       "url": "https://ai-act-service-desk.ec.europa.eu/en/ai-act/eu-ai-act-implementation-timeline",
       "http_status": 200,
       "final_url": "https://ai-act-service-desk.ec.europa.eu/en/ai-act/eu-ai-act-implementation-timeline",
-      "bytes": 36226,
-      "content_hash": "e4e4ca4fe2ca78096797b302fbbf7e0414304eecebdaf2b3a2eeaedb8ce9beb3",
-      "retrieved_at": "2026-10-26T23:08:45.556280+00:00",
+      "bytes": 36379,
+      "content_hash": "3c53198cf57bd025dbfa6b7aec40f4047dba85ec3fd0701b9cae4b3c16edcee8",
+      "retrieved_at": "2026-11-09T17:10:44.247016+00:00",
       "review_status": "REVIEW_REQUIRED"
     }
   ]
